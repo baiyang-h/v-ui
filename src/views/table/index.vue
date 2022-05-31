@@ -1,16 +1,17 @@
 <template>
   <div>
-    <v-table
+    <a-table
       :data="tableData"
       :columns="columns"
+      border
+      stripe
     >
 
-    </v-table>
+    </a-table>
   </div>
 </template>
 
 <script setup>
-import VTable from '@/packages/table/index.vue'
 
 const columns = [
   {
