@@ -1,1 +1,1 @@
-export const BRAND = 'A'
+export const BRAND = 'Pack'

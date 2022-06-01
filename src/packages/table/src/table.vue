@@ -4,15 +4,22 @@ export default {
 }
 </script>
 <script setup>
-defineProps({
+import { ref } from 'vue'
+import Column from './column.vue'
+import Pagination from './pagination.vue'
+
+const props = defineProps({
+  // （新） 列表数据
   data: {
     type: Array,
     default: () => ([])
   },
+  // （新） 列表配置
   columns: {
     type: Array,
     default: () => ([])
   },
+  // （新） 分页
   pagination: {
     type: Object,
     default: () => ({
@@ -81,29 +88,193 @@ defineProps({
   flexible: Boolean
 })
 const emit = defineEmits([
-    'select'
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave',
+  'cell-click',
+  'cell-dblclick',
+  'cell-contextmenu',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
+  'sort-change',
+  'filter-change',
+  'current-change',
+  'header-dragend',
+  'expand-change',
+  'page-current-change',       // （新） 分页 选择页码
+  'page-size-change',          // （新） 分页 选页数
 ])
+
+const tableRef = ref()
+
+// 事件
+const select = (...args) => emit('select', ...args)
+const selectAll = (...args) => emit('select-all', ...args)
+const selectionChange = (...args) => emit('selection-change', ...args)
+const cellMouseEnter = (...args) => emit('cell-mouse-enter', ...args)
+const cellMouseLeave = (...args) => emit('cell-mouse-leave', ...args)
+const cellClick = (...args) => emit('cell-click', ...args)
+const cellDblclick = (...args) => emit('cell-dblclick', ...args)
+const cellContextmenu = (...args) => emit('cell-contextmenu', ...args)
+const rowClick = (...args) => emit('row-click', ...args)
+const rowContextmenu = (...args) => emit('row-contextmenu', ...args)
+const rowDblclick = (...args) => emit('row-dblclick', ...args)
+const headerClick = (...args) => emit('header-click', ...args)
+const sortChange = (...args) => emit('sort-change', ...args)
+const filterChange = (...args) => emit('filter-change', ...args)
+const currentChange = (...args) => emit('current-change', ...args)
+const headerDragend = (...args) => emit('header-dragend', ...args)
+const expandChange = (...args) => emit('expand-change', ...args)
+
+// 方法
+const clearSelection = () => tableRef && tableRef.value.clearSelection()
+const getSelectionRows = () => tableRef && tableRef.value.getSelectionRows()
+const toggleRowSelection = (row, selected) => tableRef && tableRef.value.toggleRowSelection(row, selected)
+const toggleAllSelection = () => tableRef && tableRef.value.toggleAllSelection()
+const toggleRowExpansion = (row, expanded) => tableRef && tableRef.value.toggleRowExpansion(row, expanded)
+const setCurrentRow = (row) => tableRef && tableRef.value.setCurrentRow(row)
+const clearSort = () => tableRef && tableRef.value.clearSort()
+const clearFilter = (columnKeys) => tableRef && tableRef.value.clearFilter(columnKeys)
+const doLayout = () => tableRef && tableRef.value.doLayout()
+const sort = (prop, order) => tableRef && tableRef.value.sort(prop, order)
+const scrollTo = (options, yCoord) => tableRef && tableRef.value.scrollTo(options, yCoord)
+const setScrollTop = (top) => tableRef && tableRef.value.setScrollTop(top)
+const setScrollLeft = (left) => tableRef && tableRef.value.setScrollLeft(left)
+// 向外暴露的方法
+defineExpose({
+  clearSelection,
+  getSelectionRows,
+  toggleRowSelection,
+  toggleAllSelection,
+  toggleRowExpansion,
+  setCurrentRow,
+  clearSort,
+  clearFilter,
+  doLayout,
+  sort,
+  scrollTo,
+  setScrollTop,
+  setScrollLeft,
+})
+
+// 分页 current-change 改变时触发
+const onPageCurrentChange = (page) => {
+  emit('page-current-change', page)
+}
+// 分页 pageSize 改变时触发
+const onPageSizeChange = (pageSize) => {
+  emit('page-size-change', pageSize)
+}
 
 </script>
 
 <template>
-  <div>
+  <div class="pack-table">
     <el-table
+      ref="tableRef"
       style="width: 100%"
       :data="data"
-      @select="$emit('select')"
+      :height="height"
+      :maxHeight="maxHeight"
+      :stripe="stripe"
+      :border="border"
+      :size="size"
+      :fit="fit"
+      :showHeader="showHeader"
+      :highlightCurrentRow="highlightCurrentRow"
+      :currentRowKey="currentRowKey"
+      :rowClassName="rowClassName"
+      :rowStyle="rowStyle"
+      :cellClassName="cellClassName"
+      :cellStyle="cellStyle"
+      :headerRowClassName="headerRowClassName"
+      :headerRowStyle="headerRowStyle"
+      :headerCellClassName="headerCellClassName"
+      :headerCellStyle="headerCellStyle"
+      :rowKey="rowKey"
+      :emptyText="emptyText"
+      :defaultExpandAll="defaultExpandAll"
+      :expandRowKeys="expandRowKeys"
+      :defaultSort="defaultSort"
+      :tooltipEffect="tooltipEffect"
+      :showSummary="showSummary"
+      :sumText="sumText"
+      :summaryMethod="summaryMethod"
+      :spanMethod="spanMethod"
+      :selectOnIndeterminate="selectOnIndeterminate"
+      :indent="indent"
+      :lazy="lazy"
+      :load="load"
+      :treeProps="treeProps"
+      :tableLayout="tableLayout"
+      :scrollbarAlwaysOn="scrollbarAlwaysOn"
+      :flexible="flexible"
+      @select="select"
+      @select-all="selectAll"
+      @selection-change="selectionChange"
+      @cell-mouse-enter="cellMouseEnter"
+      @cell-mouse-leave="cellMouseLeave"
+      @cell-click="cellClick"
+      @cell-dblclick="cellDblclick"
+      @cell-contextmenu="cellContextmenu"
+      @row-click="rowClick"
+      @row-contextmenu="rowContextmenu"
+      @row-dblclick="rowDblclick"
+      @header-click="headerClick"
+      @header-contextmenu="sortChange"
+      @sort-change="sortChange"
+      @filter-change="filterChange"
+      @current-change="currentChange"
+      @header-dragend="headerDragend"
+      @expand-change="expandChange"
     >
-      <el-table-column
+      <!--   原生的 Table 插槽   -->
+      <template #append>
+        <slot name="append" v-if="$slots.append"></slot>
+      </template>
+      <!--   原生的 Table 插槽   -->
+      <template #empty>
+        <slot name="empty" v-if="$slots.empty"></slot>
+      </template>
+      <column
         v-for="column in columns"
         :key="column.prop"
+        v-bind="column"
         :prop="column.prop"
         :label="column.label"
-      />
+        :slot="column.slot"
+        :header-slot="column.headerSlot"
+      >
+        <!--   实现原组件中的 header 插槽    -->
+        <template v-if="column.headerSlot" #header="headerProps">
+          <slot :name="`${column.prop}-header`" v-bind="headerProps" v-if="$slots[`${column.prop}-header`]"></slot>
+        </template>
+        <!--    有插槽    -->
+        <template v-if="column.slot" #default="defaultProps">
+          <slot :name="column.prop" v-bind="defaultProps" v-if="$slots[column.prop]"></slot>
+        </template>
+      </column>
     </el-table>
+    <pagination
+      v-if="pagination"
+      v-bind="props.pagination"
+      :currentPage="props.pagination.currentPage"
+      :page-size="props.pagination.pageSize"
+      :total="props.pagination.total"
+      @current-change="onPageCurrentChange"
+      @size-change="onPageSizeChange"
+    />
   </div>
-
 </template>
 
 <style scoped>
-
+.el-pagination {
+  justify-content: flex-end;
+  margin-top: 15px;
+}
 </style>
