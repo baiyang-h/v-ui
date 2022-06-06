@@ -88,6 +88,8 @@ defineProps({
     :property="property"
     :showTooltipWhenOverflow="showTooltipWhenOverflow"
   >
+
+    <!--  插槽部分  -->
     <template #header="headerProps" v-if="headerSlot">
       <slot name="header" v-bind="headerProps" v-if="$slots.header"></slot>
     </template>

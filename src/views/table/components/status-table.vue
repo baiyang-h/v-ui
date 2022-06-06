@@ -1,7 +1,8 @@
 <template>
   <div class="box">
-    <h2>带边框表格</h2>
-    <p class="desc2">默认情况下，Table 组件是不具有竖直方向的边框的， 如果需要，可以使用 border 属性，把该属性设置为 true 即可启用。</p>
+    <h2>带状态表格</h2>
+    <p class="desc1">可将表格内容 highlight 显示，方便区分「成功、信息、警告、危险」等内容。</p>
+    <p class="desc2">可以通过指定 Table 组件的 row-class-name 属性来为 Table 中的某一行添加 class， 表明该行处于某种状态。</p>
     <div>
       <pack-table
         :data="tableData"

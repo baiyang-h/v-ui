@@ -242,8 +242,8 @@ const onPageSizeChange = (pageSize) => {
         <slot name="empty" v-if="$slots.empty"></slot>
       </template>
       <column
-        v-for="column in columns"
-        :key="column.prop"
+        v-for="(column, index) in columns"
+        :key="column.prop || Date.now()+index"
         v-bind="column"
         :prop="column.prop"
         :label="column.label"
