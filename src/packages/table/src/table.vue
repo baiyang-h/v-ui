@@ -4,8 +4,8 @@ export default {
 }
 </script>
 <script setup>
-import { ref } from 'vue'
-import Column from './column.vue'
+import { ref, useSlots, computed, provide  } from 'vue'
+import ColumnDynamic from './column-dynamic.vue'
 import Pagination from './pagination.vue'
 
 const props = defineProps({
@@ -109,8 +109,14 @@ const emit = defineEmits([
   'page-current-change',       // （新） 分页 选择页码
   'page-size-change',          // （新） 分页 选页数
 ])
+const slots = useSlots()
 
 const tableRef = ref()
+
+// 所有 table 中插槽的name
+const mainSlot = computed(() => Object.keys(slots))
+
+provide('mainSlot', mainSlot)
 
 // 事件
 const select = (...args) => emit('select', ...args)
@@ -241,24 +247,17 @@ const onPageSizeChange = (pageSize) => {
       <template #empty>
         <slot name="empty" v-if="$slots.empty"></slot>
       </template>
-      <column
-        v-for="(column, index) in columns"
-        :key="column.prop || Date.now()+index"
-        v-bind="column"
-        :prop="column.prop"
-        :label="column.label"
-        :slot="column.slot"
-        :header-slot="column.headerSlot"
+      <!--   el-table-column 部分   -->
+      <column-dynamic
+        :columns="columns"
       >
-        <!--   实现原组件中的 header 插槽    -->
-        <template v-if="column.headerSlot" #header="headerProps">
-          <slot :name="`${column.prop}-header`" v-bind="headerProps" v-if="$slots[`${column.prop}-header`]"></slot>
+        <template
+          v-for="dynamicSlotName in mainSlot"
+          #[dynamicSlotName]="scope"
+        >
+          <slot :name="dynamicSlotName" v-bind="scope"></slot>
         </template>
-        <!--    有插槽    -->
-        <template v-if="column.slot" #default="defaultProps">
-          <slot :name="column.prop" v-bind="defaultProps" v-if="$slots[column.prop]"></slot>
-        </template>
-      </column>
+      </column-dynamic>
     </el-table>
     <pagination
       v-if="pagination"

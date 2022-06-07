@@ -1,27 +1,33 @@
 <template>
   <div>
+    <!--  测试table  -->
+    <!--    <test-table />-->
     <!-- 基础表格   -->
-    <base-table />
+<!--    <base-table />-->
     <!--  带斑马纹表格  -->
-    <stripe-table />
+<!--    <stripe-table />-->
     <!-- 带边框表格   -->
-    <border-table />
+<!--    <border-table />-->
     <!-- 带状态表格   -->
-    <status-table />
+<!--    <status-table />-->
     <!--  固定表头  -->
-    <height-table />
+<!--    <height-table />-->
     <!--   固定列   -->
-    <fixed-column-table />
+<!--    <fixed-column-table />-->
+    <!-- 多级表头   -->
+<!--    <much-header-table />-->
   </div>
 </template>
 
 <script setup>
+import TestTable from './components/test-table.vue'
 import BaseTable from './components/base-table.vue'
 import StripeTable from './components/stripe-table.vue'
 import BorderTable from './components/border-table.vue'
 import StatusTable from './components/status-table.vue'
 import HeightTable from './components/height-table.vue'
 import FixedColumnTable from './components/fixed-column-table.vue'
+// import MuchHeaderTable from './components/much-header-table.vue'
 </script>
 
 <style scoped>
