@@ -53,6 +53,8 @@ defineProps({
   slot: Boolean,
   // （新）是否有头部 header 插槽
   headerSlot: Boolean,
+  // (新) 增对于多级表头
+  children: Array,
 })
 </script>
 

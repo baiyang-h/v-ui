@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup>
 import { ref, useSlots, computed, provide  } from 'vue'
-import ColumnDynamic from './column-dynamic.vue'
+import Column from './column.vue'
 import Pagination from './pagination.vue'
 
 const props = defineProps({
@@ -248,16 +248,16 @@ const onPageSizeChange = (pageSize) => {
         <slot name="empty" v-if="$slots.empty"></slot>
       </template>
       <!--   el-table-column 部分   -->
-      <column-dynamic
+      <column
         :columns="columns"
       >
         <template
-          v-for="dynamicSlotName in mainSlot"
-          #[dynamicSlotName]="scope"
+          v-for="item in mainSlot"
+          #[item]="scope"
         >
-          <slot :name="dynamicSlotName" v-bind="scope"></slot>
+          <slot v-bind="scope" :name="item" />
         </template>
-      </column-dynamic>
+      </column>
     </el-table>
     <pagination
       v-if="pagination"
@@ -277,3 +277,4 @@ const onPageSizeChange = (pageSize) => {
   margin-top: 15px;
 }
 </style>
+

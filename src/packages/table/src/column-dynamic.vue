@@ -3,10 +3,10 @@ import { inject  } from 'vue'
 import ColumnSlot from './column-slot.vue'
 
 defineProps({
-  columns: {
-    type: Array,
+  columnOption: {
+    type: Object,
     default() {
-      return []
+      return {}
     }
   }
 })
@@ -16,40 +16,22 @@ const mainSlot = inject('mainSlot')
 </script>
 
 <template>
-  <column-slot
-    v-for="(column, index) in columns"
-    :key="column.prop || Date.now()+index"
-    v-bind="column"
-    :prop="column.prop"
-    :label="column.label"
-    :slot="column.slot"
-    :header-slot="column.headerSlot"
+  <el-table-column
+    v-bind="columnOption"
   >
-    <!--   实现原组件中的 header 插槽    -->
-    <template v-if="column.headerSlot" #header="headerScope">
-      <slot :name="`${column.prop}-header`" v-bind="headerScope" v-if="$slots[`${column.prop}-header`]"></slot>
-    </template>
-    <!--    有插槽    -->
-    <template #default="defaultScope">
-      <!--  嵌套写法的时候  -->
+    <template v-if="columnOption.children && columnOption.children.length">
       <column-dynamic
-        v-if="column.children && column.children.length"
-        :columns="column.children"
+        v-for="column in columnOption.children"
+        :key="column.prop || column.label"
+        :columnOption="column"
       >
         <template
-          v-for="dynamicSlotName in mainSlot"
-          #[dynamicSlotName]="scope"
+          v-for="item in mainSlot"
+          #[item]="scope"
         >
-          <slot :name="dynamicSlotName" v-bind="scope"></slot>
+          <slot v-bind="scope" :name="item" />
         </template>
       </column-dynamic>
-      <template v-else>
-        <slot
-          v-if="column.slot && $slots[column.prop]"
-          v-bind="defaultScope"
-          :name="column.prop"
-        />
-      </template>
     </template>
-  </column-slot>
+  </el-table-column>
 </template>

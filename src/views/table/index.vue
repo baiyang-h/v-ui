@@ -15,7 +15,7 @@
     <!--   固定列   -->
 <!--    <fixed-column-table />-->
     <!-- 多级表头   -->
-<!--    <much-header-table />-->
+    <much-header-table />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ import BorderTable from './components/border-table.vue'
 import StatusTable from './components/status-table.vue'
 import HeightTable from './components/height-table.vue'
 import FixedColumnTable from './components/fixed-column-table.vue'
-// import MuchHeaderTable from './components/much-header-table.vue'
+import MuchHeaderTable from './components/much-header-table.vue'
 </script>
 
 <style scoped>
