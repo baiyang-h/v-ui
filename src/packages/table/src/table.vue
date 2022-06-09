@@ -116,7 +116,10 @@ const tableRef = ref()
 // 所有 table 中插槽的name
 const mainSlot = computed(() => Object.keys(slots))
 
-provide('mainSlot', mainSlot)
+provide('ctx', {
+  mainSlot,
+  setCustomHeaderName
+})
 
 // 事件
 const select = (...args) => emit('select', ...args)
@@ -175,6 +178,11 @@ const onPageCurrentChange = (page) => {
 // 分页 pageSize 改变时触发
 const onPageSizeChange = (pageSize) => {
   emit('page-size-change', pageSize)
+}
+
+// 自定义表头时对外部传入的插槽我们增加上属性名前缀, 即以前是 #header, 现改为 #name-header
+function setCustomHeaderName(prop) {
+  return `${prop}-header`
 }
 
 </script>

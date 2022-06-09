@@ -1,8 +1,10 @@
 import { BRAND } from './config/constant'
 
+import Gap from './packages/table/index'
 import Table from 'packages/table/index'
 
 const components = [
+  Gap,
   Table
 ]
 

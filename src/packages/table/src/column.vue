@@ -4,6 +4,7 @@ import ColumnDynamic from './column-dynamic.vue'
 import ColumnSlot from './column-slot.vue'
 
 defineProps({
+  // el-table-column 列表配置项
   columns: {
     type: Array,
     default() {
@@ -12,35 +13,33 @@ defineProps({
   }
 })
 
-const mainSlot = inject('mainSlot')
+const ctx = inject('ctx')
 
 </script>
 
 <template>
   <template v-for="column in columns">
+    <!-- 如果是多级表头, 会有嵌套 -->
     <column-dynamic
       v-if="column.children && column.children.length"
       :columnOption="column"
       :key="column.prop || column.label"
     >
-      <template v-for="dynamicSlotName in mainSlot" #[dynamicSlotName]="scope">
+      <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">
         <slot :name="dynamicSlotName" v-bind="scope"></slot>
       </template>
     </column-dynamic>
+    <!-- 无嵌套时 -->
     <column-slot
       v-else
       :key="column.prop || column.label"
       v-bind="column"
     >
       <template #header="headerScope">
-        <slot :name="`${column.prop}-header`" v-bind="headerScope"></slot>
+        <slot :name="ctx.setCustomHeaderName(column.prop)" v-bind="headerScope"></slot>
       </template>
       <template #default="defaultScope">
-        <slot
-          v-if="column.slot && $slots[column.prop]"
-          v-bind="defaultScope"
-          :name="column.prop"
-        />
+        <slot :name="column.prop" v-bind="defaultScope"/>
       </template>
     </column-slot>
   </template>
