@@ -6,6 +6,7 @@ export default {
 <script setup>
 import { ref, useSlots, computed, provide  } from 'vue'
 import Column from './column.vue'
+import ColumnDefault from './column-default.vue'
 import Pagination from './pagination.vue'
 
 const props = defineProps({
@@ -85,7 +86,12 @@ const props = defineProps({
     default: 'fixed'
   },
   scrollbarAlwaysOn: Boolean,
-  flexible: Boolean
+  flexible: Boolean,
+  // (新) 表格类型,第一列显示的类型   selection / index / expand
+  type: {
+    type: String,
+    default: 'default'
+  },
 })
 const emit = defineEmits([
   'select',
@@ -117,7 +123,9 @@ const tableRef = ref()
 const mainSlot = computed(() => Object.keys(slots))
 
 provide('ctx', {
-  mainSlot,
+  // table组件传入的所有插槽名 list
+  mainSlot: Object.keys(slots),
+  // 自定义表头 slot 名字前面加上   prop名+header
   setCustomHeaderName
 })
 
@@ -248,17 +256,19 @@ function setCustomHeaderName(prop) {
       @expand-change="expandChange"
     >
       <!--   原生的 Table 插槽   -->
-      <template #append>
-        <slot name="append" v-if="$slots.append"></slot>
+      <template #append v-if="$slots.append">
+        <slot name="append"></slot>
       </template>
       <!--   原生的 Table 插槽   -->
-      <template #empty>
-        <slot name="empty" v-if="$slots.empty"></slot>
+      <template #empty v-if="$slots.empty">
+        <slot name="empty"></slot>
       </template>
-      <!--   el-table-column 部分   -->
       <column
         :columns="columns"
       >
+        <column-default type="type" #header>
+
+        </column-default>
         <template
           v-for="item in mainSlot"
           #[item]="scope"

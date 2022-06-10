@@ -1,4 +1,6 @@
 <script setup>
+import {inject, useSlots} from "vue";
+
 defineProps({
   type: {
     type: String,
@@ -54,6 +56,9 @@ defineProps({
   // （新）是否有头部 header 插槽
   headerSlot: Boolean,
 })
+
+const ctx = inject('ctx')
+
 </script>
 
 <template>
@@ -90,10 +95,10 @@ defineProps({
   >
     <!--  插槽部分  -->
     <template #header="headerProps" v-if="headerSlot">
-      <slot name="header" v-bind="headerProps" v-if="$slots.header"></slot>
+      <slot :name="ctx.setCustomHeaderName(prop)" v-bind="headerProps" v-if="$slots[ctx.setCustomHeaderName(prop)]"></slot>
     </template>
     <template #default="defaultProps" v-if="slot">
-      <slot name="default" v-bind="defaultProps" v-if="$slots.default"></slot>
+      <slot :name="prop" v-bind="defaultProps" v-if="$slots[prop]"></slot>
     </template>
   </el-table-column>
 </template>

@@ -1,33 +1,33 @@
 <template>
   <div>
     <!-- 基础表格   -->
-<!--    <base-table />-->
+    <base-table />
     <!--  带斑马纹表格  -->
-<!--    <stripe-table />-->
+    <stripe-table />
     <!-- 带边框表格   -->
-<!--    <border-table />-->
+    <border-table />
     <!-- 带状态表格   -->
-<!--    <status-table />-->
+    <status-table />
     <!--  固定表头  -->
-<!--    <height-table />-->
+    <height-table />
     <!--   固定列   -->
-<!--    <fixed-column-table />-->
+    <fixed-column-table />
     <!-- 多级表头   -->
-<!--    <much-header-table />-->
+    <much-header-table />
     <!--  单选  -->
-<!--    <single-table />-->
+    <single-table />
     <!-- 多选   -->
-<!--    <multiple-table />-->
+    <multiple-table />
     <!-- 排序   -->
-<!--    <sortable-table />-->
+    <sortable-table />
     <!-- 筛选   -->
-<!--    <filter-table />-->
+    <filter-table />
     <!--  自定义列模板  -->
-<!--    <custom-column-table />-->
+    <custom-column-table />
     <!--  自定义表头  -->
-<!--    <custom-header-table />-->
+    <custom-header-table />
     <!--  展开行  -->
-<!--    <expand-table />-->
+    <expand-table />
   </div>
 </template>
 

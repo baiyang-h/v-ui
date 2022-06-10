@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from 'vue'
+import {inject, useSlots} from 'vue'
 import ColumnDynamic from './column-dynamic.vue'
 import ColumnSlot from './column-slot.vue'
 
@@ -35,11 +35,8 @@ const ctx = inject('ctx')
       :key="column.prop || column.label"
       v-bind="column"
     >
-      <template #header="headerScope">
-        <slot :name="ctx.setCustomHeaderName(column.prop)" v-bind="headerScope"></slot>
-      </template>
-      <template #default="defaultScope">
-        <slot :name="column.prop" v-bind="defaultScope"/>
+      <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">
+        <slot :name="dynamicSlotName" v-bind="scope"></slot>
       </template>
     </column-slot>
   </template>

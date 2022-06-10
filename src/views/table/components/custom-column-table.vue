@@ -33,8 +33,7 @@
               size="small"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
-          >Delete</el-button
-          >
+          >Delete</el-button>
         </template>
       </pack-table>
     </div>
@@ -56,7 +55,7 @@ const columns = [
   },
   {
     prop: 'operations',
-    label: '操作',
+    label: 'operations',
     slot: true
   },
 ]

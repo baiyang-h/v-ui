@@ -24,10 +24,6 @@
 <script setup>
 const columns = [
   {
-    prop: 'expand',
-    type: 'expand',
-  },
-  {
     prop: 'name',
     label: 'name'
   },

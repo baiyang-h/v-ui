@@ -14,6 +14,7 @@ const props = defineProps({
 const _columnOption = computed(() => {
   let column = {}
   Object.keys(props.columnOption).forEach(key => {
+    // 去掉 children el-table-column 有这个属性会包警告
     if(key !== 'children') {
       column[key] = props.columnOption[key]
     }
@@ -36,10 +37,10 @@ const ctx = inject('ctx')
       :columnOption="column"
     >
       <template
-        v-for="item in ctx.mainSlot"
-        #[item]="scope"
+        v-for="dynamicSlotName in ctx.mainSlot"
+        #[dynamicSlotName]="scope"
       >
-        <slot v-bind="scope" :name="item" />
+        <slot v-bind="scope" :name="dynamicSlotName" />
       </template>
     </column-dynamic>
   </el-table-column>
@@ -48,11 +49,11 @@ const ctx = inject('ctx')
     :key="columnOption.prop || columnOption.label"
     v-bind="_columnOption"
   >
-    <template #header="headerScope">
-      <slot :name="ctx.setCustomHeaderName(columnOption.prop)" v-bind="headerScope"></slot>
-    </template>
-    <template #default="defaultScope">
-      <slot :name="columnOption.prop" v-bind="defaultScope"/>
+    <template
+        v-for="dynamicSlotName in ctx.mainSlot"
+        #[dynamicSlotName]="scope"
+    >
+      <slot v-bind="scope" :name="dynamicSlotName" />
     </template>
   </column-slot>
 </template>
