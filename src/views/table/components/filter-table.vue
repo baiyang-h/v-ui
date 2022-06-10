@@ -10,9 +10,8 @@
       </div>
       <pack-table
         ref="tableRef"
-        row-key="date"
         :data="tableData"
-        :columns="columns"
+        :option="option"
       >
         <template #tag="scope">
           <el-tag
@@ -51,42 +50,45 @@ const filterHandler = (
   return row[property] === value
 }
 
-const columns = [
-  {
-    prop: 'date',
-    label: 'date',
-    columnKey: 'date',
-    filters: [
-      { text: '2016-05-01', value: '2016-05-01' },
-      { text: '2016-05-02', value: '2016-05-02' },
-      { text: '2016-05-03', value: '2016-05-03' },
-      { text: '2016-05-04', value: '2016-05-04' },
-    ],
-    filterMethod: filterHandler
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address',
-    formatter(row) {
-      return row.address
+const option = {
+  rowKey: 'date',
+  columns: [
+    {
+      prop: 'date',
+      label: 'date',
+      columnKey: 'date',
+      filters: [
+        { text: '2016-05-01', value: '2016-05-01' },
+        { text: '2016-05-02', value: '2016-05-02' },
+        { text: '2016-05-03', value: '2016-05-03' },
+        { text: '2016-05-04', value: '2016-05-04' },
+      ],
+      filterMethod: filterHandler
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address',
+      formatter(row) {
+        return row.address
+      }
+    },
+    {
+      prop: 'tag',
+      label: 'Tag',
+      filters: [
+        { text: 'Home', value: 'Home' },
+        { text: 'Office', value: 'Office' },
+      ],
+      filterMethod: filterTag,
+      filterPlacement: 'bottom-end',
+      slot: true
     }
-  },
-  {
-    prop: 'tag',
-    label: 'Tag',
-    filters: [
-      { text: 'Home', value: 'Home' },
-      { text: 'Office', value: 'Office' },
-    ],
-    filterMethod: filterTag,
-    filterPlacement: 'bottom-end',
-    slot: true
-  }
-]
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

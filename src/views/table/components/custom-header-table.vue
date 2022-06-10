@@ -6,7 +6,7 @@
     <div>
       <pack-table
         :data="filterTableData"
-        :columns="columns"
+        :option="option"
       >
         <!--   自定义头部     -->
         <template #operations-header>
@@ -49,22 +49,24 @@ const handleDelete = (index, row) => {
   console.log(index, row)
 }
 
-const columns = [
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'operations',
-    align: 'right',
-    headerSlot: true,
-    slot: true,
-  },
-]
+const option = {
+  columns: [
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'operations',
+      align: 'right',
+      headerSlot: true,
+      slot: true,
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

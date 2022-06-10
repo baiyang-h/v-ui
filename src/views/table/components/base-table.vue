@@ -6,27 +6,29 @@
     <div>
       <pack-table
         :data="tableData"
-        :columns="columns"
+        :option="option"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+const option = {
+  columns: [
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

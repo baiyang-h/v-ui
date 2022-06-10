@@ -6,49 +6,51 @@
     <div>
       <pack-table
         :data="tableData"
-        :columns="columns"
+        :option="option"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    label: 'Delivery Info',
-    children: [
-      {
-        prop: 'name',
-        label: 'Name'
-      },
-      {
-        label: 'Address Info',
-        children: [
-          {
-            prop: 'state',
-            label: 'State'
-          },
-          {
-            prop: 'city',
-            label: 'City'
-          },
-          {
-            prop: 'address',
-            label: 'Address'
-          },
-          {
-            prop: 'zip',
-            label: 'Zip'
-          },
-        ]
-      }
-    ]
-  }
-]
+const option = {
+  columns: [
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      label: 'Delivery Info',
+      children: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          label: 'Address Info',
+          children: [
+            {
+              prop: 'state',
+              label: 'State'
+            },
+            {
+              prop: 'city',
+              label: 'City'
+            },
+            {
+              prop: 'address',
+              label: 'Address'
+            },
+            {
+              prop: 'zip',
+              label: 'Zip'
+            },
+          ]
+        }
+      ]
+    }
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

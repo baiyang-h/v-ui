@@ -6,7 +6,7 @@
     <div>
       <pack-table
         :data="tableData"
-        :columns="columns"
+        :option="option"
       >
         <template #operations>
           <el-button text size="small" @click="handleClick">删除</el-button>
@@ -18,51 +18,53 @@
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date',
-    width: 150,
-    fixed: true
-  },
-  {
-    prop: 'name',
-    label: 'name',
-    width: 120,
-  },
-  {
-    prop: 'state',
-    label: 'state',
-    width: 120,
-  },
-  {
-    prop: 'city',
-    label: 'city',
-    width: 120,
-  },
-  {
-    prop: 'address',
-    label: 'address',
-    width: 600,
-  },
-  {
-    prop: 'zip',
-    label: 'zip',
-    width: 120,
-  },
-  {
-    prop: 'tag',
-    label: 'tag',
-    width: 120,
-  },
-  {
-    prop: 'operations',
-    label: '操作',
-    slot: true,
-    width: 200,
-    fixed: 'right'
-  },
-]
+const option = {
+  columns: [
+    {
+      prop: 'date',
+      label: 'date',
+      width: 150,
+      fixed: true
+    },
+    {
+      prop: 'name',
+      label: 'name',
+      width: 120,
+    },
+    {
+      prop: 'state',
+      label: 'state',
+      width: 120,
+    },
+    {
+      prop: 'city',
+      label: 'city',
+      width: 120,
+    },
+    {
+      prop: 'address',
+      label: 'address',
+      width: 600,
+    },
+    {
+      prop: 'zip',
+      label: 'zip',
+      width: 120,
+    },
+    {
+      prop: 'tag',
+      label: 'tag',
+      width: 120,
+    },
+    {
+      prop: 'operations',
+      label: '操作',
+      slot: true,
+      width: 200,
+      fixed: 'right'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

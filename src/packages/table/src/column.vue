@@ -1,5 +1,5 @@
 <script setup>
-import {inject, useSlots} from 'vue'
+import {inject} from 'vue'
 import ColumnDynamic from './column-dynamic.vue'
 import ColumnSlot from './column-slot.vue'
 
@@ -18,6 +18,8 @@ const ctx = inject('ctx')
 </script>
 
 <template>
+  <slot name="header"></slot>
+  <!-- 动态列 -->
   <template v-for="column in columns">
     <!-- 如果是多级表头, 会有嵌套 -->
     <column-dynamic

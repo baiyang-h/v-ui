@@ -6,28 +6,37 @@
     <div>
       <pack-table
         :data="tableData"
-        :columns="columns"
-        :row-class-name="tableRowClassName"
+        :option="option"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date',
+const option = {
+  rowClassName: ({ row, rowIndex }) => {
+    if (rowIndex === 1) {
+      return 'warning-row'
+    } else if (rowIndex === 3) {
+      return 'success-row'
+    }
+    return ''
   },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+  columns: [
+    {
+      prop: 'date',
+      label: 'date',
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',
@@ -50,14 +59,6 @@ const tableData = [
     address: 'No. 189, Grove St, Los Angeles',
   },
 ]
-const tableRowClassName = ({ row, rowIndex }) => {
-  if (rowIndex === 1) {
-    return 'warning-row'
-  } else if (rowIndex === 3) {
-    return 'success-row'
-  }
-  return ''
-}
 </script>
 
 <style scoped>

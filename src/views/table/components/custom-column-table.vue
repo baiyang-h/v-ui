@@ -6,7 +6,7 @@
     <div>
       <pack-table
         :data="tableData"
-        :columns="columns"
+        :option="option"
       >
         <template #date="scope">
           <div style="display: flex; align-items: center">
@@ -42,23 +42,26 @@
 
 <script setup>
 import { Timer } from '@element-plus/icons-vue'
-const columns = [
-  {
-    prop: 'date',
-    label: 'date',
-    slot: true
-  },
-  {
-    prop: 'name',
-    label: 'name',
-    slot: true
-  },
-  {
-    prop: 'operations',
-    label: 'operations',
-    slot: true
-  },
-]
+
+const option = {
+  columns: [
+    {
+      prop: 'date',
+      label: 'date',
+      slot: true
+    },
+    {
+      prop: 'name',
+      label: 'name',
+      slot: true
+    },
+    {
+      prop: 'operations',
+      label: 'operations',
+      slot: true
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

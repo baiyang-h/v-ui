@@ -5,29 +5,31 @@
     <p class="desc2">stripe 属性可以创建带斑马纹的表格。 如果 true, 表格将会带有斑马纹。</p>
     <div>
       <pack-table
-        stripe
         :data="tableData"
-        :columns="columns"
+        :option="option"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date',
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+const option = {
+  stripe: true,
+  columns: [
+    {
+      prop: 'date',
+      label: 'date',
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

@@ -5,29 +5,31 @@
     <p class="desc2">只要在 el-table 元素中定义了 height、max-height 属性，即可实现固定表头的表格，而不需要额外的代码。</p>
     <div>
       <pack-table
-        max-height="300"
         :data="tableData"
-        :columns="columns"
+        :option="option"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-const columns = [
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+const option = {
+  'max-height': 300,
+  columns: [
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

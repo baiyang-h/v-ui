@@ -6,9 +6,8 @@
     <div>
       <pack-table
         ref="singleTableRef"
-        highlight-current-row
         :data="tableData"
-        :columns="columns"
+        :option="option"
         @current-change="handleCurrentChange"
       />
       <div style="margin-top: 20px">
@@ -25,23 +24,23 @@ import { ref } from 'vue'
 const currentRow = ref()
 const singleTableRef = ref()
 
-const columns = [
-  {
-    type: 'index'
-  },
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+const option = {
+  highlightCurrentRow: true,
+  columns: [
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

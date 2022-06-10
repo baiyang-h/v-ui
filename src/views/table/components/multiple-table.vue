@@ -7,7 +7,7 @@
       <pack-table
         ref="multipleTableRef"
         :data="tableData"
-        :columns="columns"
+        :option="option"
         @selection-change="handleSelectionChange"
       />
       <div style="margin-top: 20px">
@@ -42,23 +42,25 @@ const handleSelectionChange = (val) => {
   multipleSelection.value = val
 }
 
-const columns = [
-  {
-    type: 'selection'
-  },
-  {
-    prop: 'date',
-    label: 'date'
-  },
-  {
-    prop: 'name',
-    label: 'name'
-  },
-  {
-    prop: 'address',
-    label: 'address'
-  },
-]
+const option = {
+  columns: [
+    {
+      type: 'selection'
+    },
+    {
+      prop: 'date',
+      label: 'date'
+    },
+    {
+      prop: 'name',
+      label: 'name'
+    },
+    {
+      prop: 'address',
+      label: 'address'
+    },
+  ]
+}
 const tableData = [
   {
     date: '2016-05-03',

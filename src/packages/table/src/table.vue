@@ -15,10 +15,13 @@ const props = defineProps({
     type: Array,
     default: () => ([])
   },
-  // （新） 列表配置
-  columns: {
-    type: Array,
-    default: () => ([])
+  option: {
+    type: Object,
+    required: true,
+    default: () => ({
+      // 列表配置
+      columns: []
+    })
   },
   // （新） 分页
   pagination: {
@@ -29,64 +32,6 @@ const props = defineProps({
       pageSize: 20
     })
   },
-  height: [String, Number],
-  maxHeight: [String, Number],
-  stripe: Boolean,
-  border: Boolean,
-  size: String,
-  fit: {
-    type: Boolean,
-    default: true
-  },
-  showHeader: {
-    type: Boolean,
-    default: true
-  },
-  highlightCurrentRow: Boolean,
-  currentRowKey: [String, Number],
-  rowClassName: [String, Function],
-  rowStyle: [Object, Function],
-  cellClassName: [String, Function],
-  cellStyle: [Object, Function],
-  headerRowClassName: [String, Function],
-  headerRowStyle: [Object, Function],
-  headerCellClassName: [String, Function],
-  headerCellStyle: [Object, Function],
-  rowKey: [String, Function],
-  emptyText: String,
-  defaultExpandAll: Boolean,
-  expandRowKeys: Array,
-  defaultSort: Object,
-  tooltipEffect: String,
-  showSummary: Boolean,
-  sumText: String,
-  summaryMethod: Function,
-  spanMethod: Function,
-  selectOnIndeterminate: {
-    type: Boolean,
-    default: true
-  },
-  indent: {
-    type: Number,
-    default: 16
-  },
-  lazy: Boolean,
-  load: Function,
-  treeProps: {
-    type: Object,
-    default() {
-      return {
-        hasChildren: 'hasChildren',
-        children: 'children'
-      };
-    }
-  },
-  tableLayout: {
-    type: String,
-    default: 'fixed'
-  },
-  scrollbarAlwaysOn: Boolean,
-  flexible: Boolean,
   // (新) 表格类型,第一列显示的类型   selection / index / expand
   type: {
     type: String,
@@ -115,14 +60,17 @@ const emit = defineEmits([
   'page-current-change',       // （新） 分页 选择页码
   'page-size-change',          // （新） 分页 选页数
 ])
-const slots = useSlots()
 
+const slots = useSlots()
 const tableRef = ref()
 
 // 所有 table 中插槽的name
 const mainSlot = computed(() => Object.keys(slots))
 
+
 provide('ctx', {
+  tableOption: props.option,
+  pagination: props.pagination,
   // table组件传入的所有插槽名 list
   mainSlot: Object.keys(slots),
   // 自定义表头 slot 名字前面加上   prop名+header
@@ -201,41 +149,7 @@ function setCustomHeaderName(prop) {
       ref="tableRef"
       style="width: 100%"
       :data="data"
-      :height="height"
-      :maxHeight="maxHeight"
-      :stripe="stripe"
-      :border="border"
-      :size="size"
-      :fit="fit"
-      :showHeader="showHeader"
-      :highlightCurrentRow="highlightCurrentRow"
-      :currentRowKey="currentRowKey"
-      :rowClassName="rowClassName"
-      :rowStyle="rowStyle"
-      :cellClassName="cellClassName"
-      :cellStyle="cellStyle"
-      :headerRowClassName="headerRowClassName"
-      :headerRowStyle="headerRowStyle"
-      :headerCellClassName="headerCellClassName"
-      :headerCellStyle="headerCellStyle"
-      :rowKey="rowKey"
-      :emptyText="emptyText"
-      :defaultExpandAll="defaultExpandAll"
-      :expandRowKeys="expandRowKeys"
-      :defaultSort="defaultSort"
-      :tooltipEffect="tooltipEffect"
-      :showSummary="showSummary"
-      :sumText="sumText"
-      :summaryMethod="summaryMethod"
-      :spanMethod="spanMethod"
-      :selectOnIndeterminate="selectOnIndeterminate"
-      :indent="indent"
-      :lazy="lazy"
-      :load="load"
-      :treeProps="treeProps"
-      :tableLayout="tableLayout"
-      :scrollbarAlwaysOn="scrollbarAlwaysOn"
-      :flexible="flexible"
+      v-bind="option"
       @select="select"
       @select-all="selectAll"
       @selection-change="selectionChange"
@@ -264,11 +178,16 @@ function setCustomHeaderName(prop) {
         <slot name="empty"></slot>
       </template>
       <column
-        :columns="columns"
+        :columns="option.columns"
       >
-        <column-default type="type" #header>
-
-        </column-default>
+        <!--   快捷 首部特殊列 对应列的类型   selection / index / expand  -->
+        <template #header>
+          <column-default>
+            <template #expand="scope">
+              <slot v-bind="scope" name="expand"></slot>
+            </template>
+          </column-default>
+        </template>
         <template
           v-for="item in mainSlot"
           #[item]="scope"
