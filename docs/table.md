@@ -25,6 +25,13 @@
 | expand  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（折叠） | boolean |
 | selection  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（复选框） | boolean |
 | index  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（索引） | boolean |
+| indexLabel  | 索引表头标题 | string |
+| expandFixed  | 折叠列是否固定 | true / 'left' / 'right' |
+| selectionFixed  | 复选框是否固定 | boolean |
+| indexFixed  | 索引是否固定 | boolean |
+| expandWidth  | 折叠列宽度 | boolean |
+| selectionWidth  | 复选框列宽度 | boolean |
+| indexWidth  | 索引列宽度 | boolean |
 
 ## Pagination
 
