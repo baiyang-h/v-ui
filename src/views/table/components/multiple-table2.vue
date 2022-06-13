@@ -1,7 +1,8 @@
 <template>
   <div class="box">
-    <h2>多选</h2>
-    <p class="desc1">在 el-table-column 配置项中，设 type 属性为 selection 即可</p>
+    <h2>多选2</h2>
+    <p class="desc1">你也可以选择多行。</p>
+    <p class="desc2">设置 option.selection 为 true, 就可以选择多行</p>
     <div>
       <pack-table
         ref="multipleTableRef"

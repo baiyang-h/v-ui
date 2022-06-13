@@ -112,6 +112,7 @@ const setScrollTop = (top) => tableRef && tableRef.value.setScrollTop(top)
 const setScrollLeft = (left) => tableRef && tableRef.value.setScrollLeft(left)
 // 向外暴露的方法
 defineExpose({
+  tableRef,
   clearSelection,
   getSelectionRows,
   toggleRowSelection,

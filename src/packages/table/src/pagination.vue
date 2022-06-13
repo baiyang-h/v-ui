@@ -62,7 +62,6 @@ const onPrevClick = (page) => {
 const onNextClick = (page) => {
   emit('next-click', page)
 }
-
 </script>
 
 <template>

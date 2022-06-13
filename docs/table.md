@@ -3,16 +3,38 @@
 |  属性   | 说明  | 类型  |
 |  ----  | ---- | ---- |
 | data  | 表格数据 | array |
-| columns  | 列表配置 | array |
+| option  | 表格配置 | object |
 | pagination  | 分页配置，设为 false 时不展示和进行分页 | object / null、undefined、false |
 
 ## 事件
+
+新增如下事件， 其他具体方法可查看 element-ui
 
 |  事件名   | 说明  | 参数 |
 |  ----  | ----  | ---- |
 | page-current-change  | 分页 current-change 改变时触发 | 新当前页|
 | page-size-change  | 分页 pageSize 改变时触发 | 新每页条数 |
 
+## Option
+
+新增属性如下，其他具体属性可查看 element-ui table 表格部分
+
+|  属性   | 说明  | 类型  |
+|  ----  | ---- | ---- |
+| columns  | el-table-column 上的属性配置 | object |
+| expand  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（折叠） | boolean |
+| selection  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（复选框） | boolean |
+| index  | 对标 Table-column 的 type 类型，在 Table 表格中头部列增加类型，（索引） | boolean |
+
+## Pagination
+
+主要属性如下，其他具体属性可查看 element-ui Pagination 分页
+
+|  属性   | 说明  | 类型  | 默认值 |
+|  ----  | ---- | ---- | ---- |
+| currentPage  | 当前页数 | number | 1 |
+| pageSize  | 每页显示条目个数 | number | 20 |
+| total  | 总条目数 | number | - |
 
 ## 插槽部分
 
