@@ -20,12 +20,12 @@ const ctx = inject('ctx')
 <template>
   <slot name="header"></slot>
   <!-- 动态列 -->
-  <template v-for="column in columns">
+  <template v-for="(column, index) in columns">
     <!-- 如果是多级表头, 会有嵌套 -->
     <column-dynamic
       v-if="column.children && column.children.length"
       :columnOption="column"
-      :key="column.prop || column.label"
+      :key="column.prop || index"
     >
       <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">
         <slot :name="dynamicSlotName" v-bind="scope"></slot>
@@ -34,7 +34,7 @@ const ctx = inject('ctx')
     <!-- 无嵌套时 -->
     <column-slot
       v-else
-      :key="column.prop || column.label"
+      :key="column.prop || index"
       v-bind="column"
     >
       <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">

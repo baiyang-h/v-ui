@@ -32,8 +32,8 @@ const ctx = inject('ctx')
     v-bind="_columnOption"
   >
     <column-dynamic
-      v-for="column in columnOption.children"
-      :key="column.prop || column.label"
+      v-for="(column, index) in columnOption.children"
+      :key="column.prop || index"
       :columnOption="column"
     >
       <template
