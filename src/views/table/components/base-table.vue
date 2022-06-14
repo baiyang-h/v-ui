@@ -7,7 +7,7 @@
       <pack-table
         :data="tableData"
         :option="option"
-      />
+      ></pack-table>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ const option = {
   columns: [
     {
       prop: 'date',
-      label: 'date'
+      label: 'date',
     },
     {
       prop: 'name',
@@ -25,7 +25,7 @@ const option = {
     },
     {
       prop: 'address',
-      label: 'address'
+      label: 'address',
     },
   ]
 }

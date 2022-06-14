@@ -1,5 +1,5 @@
 <script setup>
-import {inject, useSlots} from "vue";
+import {inject} from "vue";
 
 defineProps({
   type: {
@@ -97,8 +97,8 @@ const ctx = inject('ctx')
     <template #header="headerProps" v-if="headerSlot">
       <slot :name="ctx.setCustomHeaderName(prop)" v-bind="headerProps" v-if="$slots[ctx.setCustomHeaderName(prop)]"></slot>
     </template>
-    <template #default="defaultProps" v-if="slot">
-      <slot :name="prop" v-bind="defaultProps" v-if="$slots[prop]"></slot>
+    <template #default="defaultProps">
+      <slot :name="prop" v-bind="defaultProps" v-if="slot && $slots[prop]"></slot>
     </template>
   </el-table-column>
 </template>

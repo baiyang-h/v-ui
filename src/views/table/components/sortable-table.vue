@@ -31,7 +31,7 @@ const option = {
       label: 'address',
       formatter(row) {
         return row.address
-      }
+      },
     },
   ]
 }
