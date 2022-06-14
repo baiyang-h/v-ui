@@ -11,6 +11,10 @@ const router = createRouter({
       path: '/table',
       component: () => import('@/views/table/index.vue')
     },
+    {
+      path: '/form',
+      component: () => import('@/views/form/index.vue')
+    },
   ],
 })
 

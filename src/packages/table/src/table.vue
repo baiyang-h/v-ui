@@ -18,7 +18,8 @@ const props = defineProps({
   option: {
     type: Object,
     required: true,
-    default: () => ({
+    default: (rawProps) => ({
+      ...rawProps,
       // 列表配置
       columns: []
     })

@@ -1,11 +1,13 @@
 import { BRAND } from './config/constant'
 
-import Gap from './packages/table/index'
-import Table from 'packages/table/index'
+import Gap from './packages/gap/index'
+import Table from './packages/table/index'
+import Form from './packages/form/index'
 
 const components = [
   Gap,
-  Table
+  Table,
+  Form
 ]
 
 const install = (Vue, opts = {}) => {
