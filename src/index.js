@@ -1,19 +1,33 @@
-import { BRAND } from './config/constant'
+import { produceComponentName } from './libs/method'
+// import filterObject from './libs/function/filterObject'
+// import addUnit from './libs/function/addUnit'
+// import deepMerge from './libs/function/deepMerge'
 
 import Gap from './packages/gap/index'
+import Text from './packages/text/index'
+import RadioGroup from './packages/widget/radio-group/index'
+import Select from './packages/widget/select/index'
 import Table from './packages/table/index'
 import Form from './packages/form/index'
 
 const components = [
   Gap,
+  Text,
+  RadioGroup,
+  Select,
   Table,
   Form
 ]
 
 const install = (Vue, opts = {}) => {
   components.forEach(component => {
-    Vue.component(BRAND+component.name, component);
+    Vue.component(produceComponentName(component.name), component);
   });
+
+  // 注入全局方法
+  // Object.keys($func).forEach(key => {
+  //   Vue.config.globalProperties['$'+key] = $func[key]
+  // })
 }
 
 /* istanbul ignore if */

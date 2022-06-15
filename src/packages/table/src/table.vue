@@ -33,11 +33,6 @@ const props = defineProps({
       pageSize: 20
     })
   },
-  // (新) 表格类型,第一列显示的类型   selection / index / expand
-  type: {
-    type: String,
-    default: 'default'
-  },
 })
 const emit = defineEmits([
   'select',
@@ -60,6 +55,8 @@ const emit = defineEmits([
   'expand-change',
   'page-current-change',       // （新） 分页 选择页码
   'page-size-change',          // （新） 分页 选页数
+  'page-prev-click',          // （新） 分页 用户点击上一页按钮改变当前页时触发
+  'page-next-click',          // （新） 分页 用户点击下一页按钮改变当前页时触发
 ])
 
 const slots = useSlots()
@@ -138,6 +135,14 @@ const onPageSizeChange = (pageSize) => {
   emit('page-size-change', pageSize)
 }
 
+const onPrevClick = (page) => {
+  emit('page-prev-click', page)
+}
+
+const onNextClick = (page) => {
+  emit('page-next-click', page)
+}
+
 // 自定义表头时对外部传入的插槽我们增加上属性名前缀, 即以前是 #header, 现改为 #name-header
 function setCustomHeaderName(prop) {
   return `${prop}-header`
@@ -146,7 +151,7 @@ function setCustomHeaderName(prop) {
 </script>
 
 <template>
-  <div class="pack-table">
+  <div class="p-table">
     <el-table
       ref="tableRef"
       style="width: 100%"
@@ -198,7 +203,7 @@ function setCustomHeaderName(prop) {
         </template>
       </column>
     </el-table>
-    <pagination
+    <el-pagination
       v-if="pagination"
       v-bind="props.pagination"
       :currentPage="props.pagination.currentPage"
@@ -206,6 +211,8 @@ function setCustomHeaderName(prop) {
       :total="props.pagination.total"
       @current-change="onPageCurrentChange"
       @size-change="onPageSizeChange"
+      @prev-click="onPrevClick"
+      @next-click="onNextClick"
     />
   </div>
 </template>

@@ -4,7 +4,7 @@
     <p class="desc1">横向内容过多时，可选择固定列。</p>
     <p class="desc2">固定列需要使用 fixed 属性，它接受 Boolean 值 如果为 true, 列将被左侧固定. 它还接受传入字符串，left 或 right，表示左边固定还是右边固定。</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       >
@@ -12,7 +12,7 @@
           <el-button text size="small" @click="handleClick">删除</el-button>
           <el-button text size="small">编辑</el-button>
         </template>
-      </pack-table>
+      </p-table>
     </div>
   </div>
 </template>

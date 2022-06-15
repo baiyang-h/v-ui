@@ -4,7 +4,7 @@
     <p class="desc1">分页表格</p>
     <p class="desc2">在组件上增加 pagination 属性来设置分页</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
         :pagination="pagination"

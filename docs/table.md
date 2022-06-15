@@ -74,7 +74,7 @@ const columns = [
 </script>
 
 <template>
-  <pack-table
+  <p-table
       :data="tableData"
       :columns="columns"
   >
@@ -84,6 +84,6 @@ const columns = [
     <template #aaa="{ row, column, $index }">
       <el-button type="primary" @click="getSlot(row, column, $index)">我是内容插槽</el-button>
     </template>
-  </pack-table>
+  </p-table>
 </template>
 ```

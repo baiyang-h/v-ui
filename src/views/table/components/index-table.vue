@@ -5,15 +5,17 @@
     <p class="desc2">2. 自定义 type=index 列的行号, 然后通过 slot 插槽方式自定义序号</p>
     <p class="desc3">3. 自定义 type=index 列的行号, 然后通过 index 传入一个自定义方法来作为索引</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
         :pagination="pagination"
         @page-current-change="onPageCurrentChange"
         @page-size-change="onPageSizeChange"
+        @page-prev-click="prevClick"
+        @page-next-click="nextClick"
       />
       <br />
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option2"
         :pagination="pagination"
@@ -23,9 +25,9 @@
         <template #index="{ $index, row }" >
           {{ indexMethod($index) }}
         </template>
-      </pack-table>
+      </p-table>
       <br />
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option3"
         :pagination="pagination"
@@ -48,13 +50,23 @@ const pagination = reactive({
 const tableData = ref([])
 
 const onPageCurrentChange = (page) => {
+  console.log('page', page)
   pagination.currentPage = page
   tableData.value = produceTableData()
 }
 
 const onPageSizeChange = (pageSize) => {
+  console.log('pageSize', pageSize)
   pagination.pageSize = pageSize
   tableData.value = produceTableData()
+}
+
+const prevClick = (val) => {
+  console.log('prev', val)
+}
+
+const nextClick = (val) => {
+  console.log('next', val)
 }
 
 const produceTableData = () => {

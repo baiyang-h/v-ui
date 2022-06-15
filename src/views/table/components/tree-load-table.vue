@@ -3,16 +3,16 @@
     <h2>树形数据与懒加载</h2>
     <p class="desc2">支持树类型的数据的显示。 当 row 中包含 children 字段时，被视为树形数据。 渲染嵌套数据需要 prop 的 row-key。 此外，子行数据可以异步加载。 设置 Table 的lazy属性为 true 与加载函数 load 。 通过指定 row 中的hasChildren字段来指定哪些行是包含子节点。 children 与hasChildren都可以通过 tree-props 配置。</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       >
         <template #operation="{ $index, row }">
           <el-button type="primary" @click="onHandleClick($index, row)">按钮</el-button>
         </template>
-      </pack-table>
+      </p-table>
       <br />
-      <pack-table
+      <p-table
         :data="tableData1"
         :option="option1"
       />

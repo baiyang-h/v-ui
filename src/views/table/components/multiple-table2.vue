@@ -4,7 +4,7 @@
     <p class="desc1">你也可以选择多行。</p>
     <p class="desc2">设置 option.selection 为 true, 就可以选择多行</p>
     <div>
-      <pack-table
+      <p-table
         ref="multipleTableRef"
         :data="tableData"
         :option="option"

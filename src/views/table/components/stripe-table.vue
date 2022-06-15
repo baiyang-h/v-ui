@@ -4,7 +4,7 @@
     <p class="desc1">使用带斑马纹的表格，可以更容易区分出不同行的数据。</p>
     <p class="desc2">stripe 属性可以创建带斑马纹的表格。 如果 true, 表格将会带有斑马纹。</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       />

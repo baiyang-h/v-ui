@@ -4,7 +4,7 @@
     <p class="desc1">数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。</p>
     <p class="desc2">只要在配置中添加children层级嵌套即可</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       />

@@ -8,7 +8,7 @@
         <el-button @click="resetDateFilter">reset date filter</el-button>
         <el-button @click="clearFilter">reset all filters</el-button>
       </div>
-      <pack-table
+      <p-table
         ref="tableRef"
         :data="tableData"
         :option="option"
@@ -19,7 +19,7 @@
             disable-transitions
           >{{ scope.row.tag }}</el-tag>
         </template>
-      </pack-table>
+      </p-table>
     </div>
   </div>
 </template>

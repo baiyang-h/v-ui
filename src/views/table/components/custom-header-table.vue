@@ -4,7 +4,7 @@
     <p class="desc1">表头支持自定义。</p>
     <p class="desc2">通过在相应的配置项中设置 headerSlot: true 来自定义表头, 注意:在插槽中要使用 propName-header 的名字, 如例子中的 #operations-header </p>
     <div>
-      <pack-table
+      <p-table
         :data="filterTableData"
         :option="option"
       >
@@ -24,7 +24,7 @@
           >Delete</el-button
           >
         </template>
-      </pack-table>
+      </p-table>
     </div>
   </div>
 </template>

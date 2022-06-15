@@ -3,7 +3,7 @@
     <h2>多选</h2>
     <p class="desc1">在 el-table-column 配置项中，设 type 属性为 selection 即可</p>
     <div>
-      <pack-table
+      <p-table
         ref="multipleTableRef"
         :data="tableData"
         :option="option"

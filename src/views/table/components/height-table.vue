@@ -4,7 +4,7 @@
     <p class="desc1">纵向内容过多时，可选择固定表头，对表格设置高度。</p>
     <p class="desc2">只要在 el-table 元素中定义了 height、max-height 属性，即可实现固定表头的表格，而不需要额外的代码。</p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       />

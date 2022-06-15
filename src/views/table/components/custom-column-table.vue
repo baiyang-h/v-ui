@@ -4,7 +4,7 @@
     <p class="desc1">自定义列的显示内容，可组合其他组件使用。</p>
     <p class="desc2">通过在配置项中设置 slot 然后再组件中写入插槽, 通过作用域插槽获取到 row, column, $index 和 store（table 内部的状态管理）的数据，用法参考 demo </p>
     <div>
-      <pack-table
+      <p-table
         :data="tableData"
         :option="option"
       >
@@ -35,7 +35,7 @@
               @click="handleDelete(scope.$index, scope.row)"
           >Delete</el-button>
         </template>
-      </pack-table>
+      </p-table>
     </div>
   </div>
 </template>

@@ -1,2 +1,2 @@
 // 组件前缀名
-export const BRAND = 'Pack'
+export const BRAND = 'P'
