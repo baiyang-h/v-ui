@@ -2,10 +2,10 @@
 import { computed, inject } from 'vue'
 import config from "./config.js";
 
-const ctx = inject('ctx')
+const instance = inject('instance')
 
-const tableOption = computed(() => ctx.tableOption)
-const pagination = computed(() => ctx.pagination)
+const tableOption = computed(() => instance.tableOption)
+const pagination = computed(() => instance.pagination)
 
 const indexMethod = (index) => {
   return (

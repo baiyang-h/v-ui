@@ -22,7 +22,7 @@ const _columnOption = computed(() => {
   return column
 })
 
-const ctx = inject('ctx')
+const instance = inject('instance')
 
 </script>
 
@@ -37,7 +37,7 @@ const ctx = inject('ctx')
       :columnOption="column"
     >
       <template
-        v-for="dynamicSlotName in ctx.mainSlot"
+        v-for="dynamicSlotName in instance.mainSlot"
         #[dynamicSlotName]="scope"
       >
         <slot v-bind="scope" :name="dynamicSlotName" />
@@ -50,7 +50,7 @@ const ctx = inject('ctx')
     v-bind="_columnOption"
   >
     <template
-        v-for="dynamicSlotName in ctx.mainSlot"
+        v-for="dynamicSlotName in instance.mainSlot"
         #[dynamicSlotName]="scope"
     >
       <slot v-bind="scope" :name="dynamicSlotName" />

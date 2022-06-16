@@ -45,7 +45,7 @@ const pagination = reactive({
   layout: 'total, prev, pager, next, jumper',
   currentPage: 1,
   pageSize: 20,
-  total: 5000
+  total: 5000,
 })
 const tableData = ref([])
 

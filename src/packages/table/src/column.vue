@@ -13,7 +13,7 @@ defineProps({
   }
 })
 
-const ctx = inject('ctx')
+const instance = inject('instance')
 
 </script>
 
@@ -27,7 +27,7 @@ const ctx = inject('ctx')
       :columnOption="column"
       :key="column.prop || index"
     >
-      <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">
+      <template v-for="dynamicSlotName in instance.mainSlot" #[dynamicSlotName]="scope">
         <slot :name="dynamicSlotName" v-bind="scope"></slot>
       </template>
     </column-dynamic>
@@ -37,7 +37,7 @@ const ctx = inject('ctx')
       :key="column.prop || index"
       v-bind="column"
     >
-      <template v-for="dynamicSlotName in ctx.mainSlot" #[dynamicSlotName]="scope">
+      <template v-for="dynamicSlotName in instance.mainSlot" #[dynamicSlotName]="scope">
         <slot :name="dynamicSlotName" v-bind="scope"></slot>
       </template>
     </column-slot>

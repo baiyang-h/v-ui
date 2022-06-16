@@ -8,6 +8,7 @@
         :data="tableData"
         :option="option"
         @selection-change="handleSelectionChange"
+        @select="handleSelect"
       />
       <div style="margin-top: 20px">
         <el-button @click="toggleSelection([tableData[1], tableData[2]])">
@@ -39,6 +40,10 @@ const toggleSelection = (rows) => {
 }
 const handleSelectionChange = (val) => {
   multipleSelection.value = val
+}
+
+const handleSelect = (...args) => {
+  console.log(args)
 }
 
 const option = {

@@ -1,3 +1,70 @@
+<template>
+  <div class="p-table">
+    <el-table
+      ref="tableRef"
+      style="width: 100%"
+      :data="data"
+      v-bind="option"
+      @select="select"
+      @select-all="selectAll"
+      @selection-change="selectionChange"
+      @cell-mouse-enter="cellMouseEnter"
+      @cell-mouse-leave="cellMouseLeave"
+      @cell-click="cellClick"
+      @cell-dblclick="cellDblclick"
+      @cell-contextmenu="cellContextmenu"
+      @row-click="rowClick"
+      @row-contextmenu="rowContextmenu"
+      @row-dblclick="rowDblclick"
+      @header-click="headerClick"
+      @header-contextmenu="sortChange"
+      @sort-change="sortChange"
+      @filter-change="filterChange"
+      @current-change="currentChange"
+      @header-dragend="headerDragend"
+      @expand-change="expandChange"
+    >
+      <!--   原生的 Table 插槽   -->
+      <template #append v-if="$slots.append">
+        <slot name="append"></slot>
+      </template>
+      <!--   原生的 Table 插槽   -->
+      <template #empty v-if="$slots.empty">
+        <slot name="empty"></slot>
+      </template>
+      <column
+          :columns="option.columns"
+      >
+        <!--   快捷 首部特殊列 对应列的类型   selection / index / expand  -->
+        <template #header>
+          <column-default>
+            <template #expand="scope">
+              <slot v-bind="scope" name="expand"></slot>
+            </template>
+          </column-default>
+        </template>
+        <template
+            v-for="item in mainSlot"
+            #[item]="scope"
+        >
+          <slot v-bind="scope" :name="item" />
+        </template>
+      </column>
+    </el-table>
+    <el-pagination
+      v-if="pagination"
+      v-bind="computedPagination"
+      :currentPage="pagination.currentPage"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
+      @current-change="onPageCurrentChange"
+      @size-change="onPageSizeChange"
+      @prev-click="onPrevClick"
+      @next-click="onNextClick"
+    />
+  </div>
+</template>
+
 <script>
 export default {
   name: 'Table'
@@ -7,7 +74,7 @@ export default {
 import { ref, useSlots, computed, provide  } from 'vue'
 import Column from './column.vue'
 import ColumnDefault from './column-default.vue'
-import Pagination from './pagination.vue'
+import config from "./config";
 
 const props = defineProps({
   // （新） 列表数据
@@ -30,7 +97,7 @@ const props = defineProps({
     default: () => ({
       total: 0,
       currentPage: 1,
-      pageSize: 20
+      pageSize: 20,
     })
   },
 })
@@ -64,9 +131,14 @@ const tableRef = ref()
 
 // 所有 table 中插槽的name
 const mainSlot = computed(() => Object.keys(slots))
+// 分页
+const computedPagination = computed(() => ({
+  layout: config.layout,
+  pageSizes: config.pageSizes,
+  ...props.pagination
+}))
 
-
-provide('ctx', {
+provide('instance', {
   tableOption: props.option,
   pagination: props.pagination,
   // table组件传入的所有插槽名 list
@@ -149,73 +221,6 @@ function setCustomHeaderName(prop) {
 }
 
 </script>
-
-<template>
-  <div class="p-table">
-    <el-table
-      ref="tableRef"
-      style="width: 100%"
-      :data="data"
-      v-bind="option"
-      @select="select"
-      @select-all="selectAll"
-      @selection-change="selectionChange"
-      @cell-mouse-enter="cellMouseEnter"
-      @cell-mouse-leave="cellMouseLeave"
-      @cell-click="cellClick"
-      @cell-dblclick="cellDblclick"
-      @cell-contextmenu="cellContextmenu"
-      @row-click="rowClick"
-      @row-contextmenu="rowContextmenu"
-      @row-dblclick="rowDblclick"
-      @header-click="headerClick"
-      @header-contextmenu="sortChange"
-      @sort-change="sortChange"
-      @filter-change="filterChange"
-      @current-change="currentChange"
-      @header-dragend="headerDragend"
-      @expand-change="expandChange"
-    >
-      <!--   原生的 Table 插槽   -->
-      <template #append v-if="$slots.append">
-        <slot name="append"></slot>
-      </template>
-      <!--   原生的 Table 插槽   -->
-      <template #empty v-if="$slots.empty">
-        <slot name="empty"></slot>
-      </template>
-      <column
-        :columns="option.columns"
-      >
-        <!--   快捷 首部特殊列 对应列的类型   selection / index / expand  -->
-        <template #header>
-          <column-default>
-            <template #expand="scope">
-              <slot v-bind="scope" name="expand"></slot>
-            </template>
-          </column-default>
-        </template>
-        <template
-          v-for="item in mainSlot"
-          #[item]="scope"
-        >
-          <slot v-bind="scope" :name="item" />
-        </template>
-      </column>
-    </el-table>
-    <el-pagination
-      v-if="pagination"
-      v-bind="props.pagination"
-      :currentPage="props.pagination.currentPage"
-      :page-size="props.pagination.pageSize"
-      :total="props.pagination.total"
-      @current-change="onPageCurrentChange"
-      @size-change="onPageSizeChange"
-      @prev-click="onPrevClick"
-      @next-click="onNextClick"
-    />
-  </div>
-</template>
 
 <style scoped>
 .el-pagination {

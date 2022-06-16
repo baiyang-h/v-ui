@@ -4,7 +4,7 @@
   >
     <!--  插槽部分  -->
     <template #header="headerProps" v-if="headerSlot">
-      <slot :name="ctx.setCustomHeaderName(prop)" v-bind="headerProps" v-if="$slots[ctx.setCustomHeaderName(prop)]"></slot>
+      <slot :name="instance.setCustomHeaderName(prop)" v-bind="headerProps" v-if="$slots[instance.setCustomHeaderName(prop)]"></slot>
     </template>
     <template #default="defaultProps">
       <slot :name="prop" v-bind="defaultProps" v-if="slot && $slots[prop]"></slot>
@@ -26,6 +26,6 @@ const props = defineProps({
   headerSlot: Boolean,
 })
 
-const ctx = inject('ctx')
+const instance = inject('instance')
 
 </script>
