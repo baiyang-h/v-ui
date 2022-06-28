@@ -1,14 +1,13 @@
-import { produceComponentName } from '@/libs/methods.js'
 import Text from '@/packages/text/index'
 import RadioGroup from '@/packages/widget/radio-group/index'
 import Select from '@/packages/widget/select/index'
 
 export default {
-  text: Text,
+  // text: Text,
   input: 'el-input',
   inputNumber: 'el-input-number',
-  select: Select,
-  radioGroup: RadioGroup,
+  // select: Select,
+  // radioGroup: RadioGroup,
   checkbox: 'el-checkbox',
   checkboxGroup: '',
   rate: 'el-rate',

@@ -11,7 +11,10 @@
       :label="item.label"
       :prop="item.prop"
     >
-      <component :is="getComNameOrModule(item)">
+      <component
+        :is="getComNameOrModule(item)"
+        v-bind="item.attrs"
+      >
 
       </component>
     </el-form-item>
@@ -57,6 +60,7 @@ function getComNameOrModule(item) {
   } else if(item.type === 'html') {
     return item.html
   } else {
+    console.log(typeMap[item.type])
     return typeMap[item.type]
   }
 }
