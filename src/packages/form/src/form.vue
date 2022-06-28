@@ -5,8 +5,15 @@
     :model="form"
     :rules="option.rules"
   >
-    <el-form-item label="Activity name" prop="name">
-      <el-input v-model="form.name" />
+    <el-form-item
+      v-for="(item, index) in option.columns"
+      :key="item.prop || item.label || index"
+      :label="item.label"
+      :prop="item.prop"
+    >
+      <component :is="getComNameOrModule(item)">
+
+      </component>
     </el-form-item>
   </el-form>
 </template>
@@ -18,6 +25,7 @@ export default {
 </script>
 <script setup>
 import { ref, reactive, computed } from 'vue'
+import typeMap from './type'
 
 const props = defineProps({
   option: {
@@ -41,7 +49,16 @@ const form = reactive({
 // 初始化form数据，
 function initForm() {
   const { columns } = props.option
+}
 
+function getComNameOrModule(item) {
+  if(item.type === 'custom') {
+    return item.component
+  } else if(item.type === 'html') {
+    return item.html
+  } else {
+    return typeMap[item.type]
+  }
 }
 
 const submitForm = async () => {
