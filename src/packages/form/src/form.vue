@@ -8,12 +8,6 @@
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="Activity zone" prop="region">
-      <el-select v-model="form.region" placeholder="Activity zone">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
-    </el-form-item>
   </el-form>
 </template>
 
@@ -25,7 +19,7 @@ export default {
 <script setup>
 import { ref, reactive, computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   option: {
     type: Object,
     required: true,
@@ -43,6 +37,12 @@ const form = reactive({
   name: 'Hello',
   region: '',
 })
+
+// 初始化form数据，
+function initForm() {
+  const { columns } = props.option
+
+}
 
 const submitForm = async () => {
   if (!formRef.value) return
