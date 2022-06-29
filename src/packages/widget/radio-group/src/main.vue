@@ -1,13 +1,13 @@
 <template>
   <el-radio-group
     :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
     :size="size"
     :disabled="disabled"
     :textColor="textColor"
     :fill="fill"
     :name="name"
     :label="label"
+    @update:modelValue="$emit('update:modelValue', $event)"
     @change="$emit('change', $event)"
   >
     <template v-if="options">

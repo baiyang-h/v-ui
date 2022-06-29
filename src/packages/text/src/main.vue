@@ -1,11 +1,11 @@
 <template>
   <span v-if="inline" :style="wrapStyle">
     <slot v-if="$slots.default"></slot>
-    <template v-else>{{ text }}</template>
+    <template v-else>{{ computedText }}</template>
   </span>
   <div v-else :style="wrapStyle">
     <slot v-if="$slots.default"></slot>
-    <template v-else>{{ text }}</template>
+    <template v-else>{{ computedText }}</template>
   </div>
 </template>
 
@@ -44,5 +44,5 @@ const wrapStyle = computed(() => {
   return style
 })
 
-const text = computed(() => (props.modelValue === undefined || props.modelValue === null || props.modelValue === '') ? props.text : props.modelValue)
+const computedText = computed(() => (props.modelValue === undefined || props.modelValue === null || props.modelValue === '') ? props.text : props.modelValue)
 </script>
