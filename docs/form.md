@@ -174,3 +174,24 @@ const option = reactive({
 })
 </script>
 ```
+
+### Option
+| 属性 | 说明 |
+| ---- | ---- |
+| columns    | 表单配置 |
+
+
+### Columns
+| 属性 | 说明 |
+| ---- | ---- |
+| type    | 表单控件类型 |
+| label    |  标签文本  |
+| prop    |  model 的键名  |
+| attrs    |  表单控件的属性  |
+
+### Form 事件
+| 事件名称 | 说明 |
+| ---- | ---- |
+| validate    | 任一表单项被校验后触发 |
+| onOk    | 确定按钮 |
+| onCancel    | 取消按钮 |

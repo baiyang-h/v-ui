@@ -167,35 +167,22 @@ const headerDragend = (...args) => emit('header-dragend', ...args)
 const expandChange = (...args) => emit('expand-change', ...args)
 
 // 方法
-const clearSelection = () => tableRef && tableRef.value.clearSelection()
-const getSelectionRows = () => tableRef && tableRef.value.getSelectionRows()
-const toggleRowSelection = (row, selected) => tableRef && tableRef.value.toggleRowSelection(row, selected)
-const toggleAllSelection = () => tableRef && tableRef.value.toggleAllSelection()
-const toggleRowExpansion = (row, expanded) => tableRef && tableRef.value.toggleRowExpansion(row, expanded)
-const setCurrentRow = (row) => tableRef && tableRef.value.setCurrentRow(row)
-const clearSort = () => tableRef && tableRef.value.clearSort()
-const clearFilter = (columnKeys) => tableRef && tableRef.value.clearFilter(columnKeys)
-const doLayout = () => tableRef && tableRef.value.doLayout()
-const sort = (prop, order) => tableRef && tableRef.value.sort(prop, order)
-const scrollTo = (options, yCoord) => tableRef && tableRef.value.scrollTo(options, yCoord)
-const setScrollTop = (top) => tableRef && tableRef.value.setScrollTop(top)
-const setScrollLeft = (left) => tableRef && tableRef.value.setScrollLeft(left)
 // 向外暴露的方法
 defineExpose({
   tableRef,
-  clearSelection,
-  getSelectionRows,
-  toggleRowSelection,
-  toggleAllSelection,
-  toggleRowExpansion,
-  setCurrentRow,
-  clearSort,
-  clearFilter,
-  doLayout,
-  sort,
-  scrollTo,
-  setScrollTop,
-  setScrollLeft,
+  clearSelection: () => tableRef && tableRef.value.clearSelection(),
+  getSelectionRows: () => tableRef && tableRef.value.getSelectionRows(),
+  toggleRowSelection: (row, selected) => tableRef && tableRef.value.toggleRowSelection(row, selected),
+  toggleAllSelection: () => tableRef && tableRef.value.toggleAllSelection(),
+  toggleRowExpansion: (row, expanded) => tableRef && tableRef.value.toggleRowExpansion(row, expanded),
+  setCurrentRow: (row) => tableRef && tableRef.value.setCurrentRow(row),
+  clearSort: () => tableRef && tableRef.value.clearSort(),
+  clearFilter: (columnKeys) => tableRef && tableRef.value.clearFilter(columnKeys),
+  doLayout: () => tableRef && tableRef.value.doLayout(),
+  sort: (prop, order) => tableRef && tableRef.value.sort(prop, order),
+  scrollTo: (options, yCoord) => tableRef && tableRef.value.scrollTo(options, yCoord),
+  setScrollTop: (top) => tableRef && tableRef.value.setScrollTop(top),
+  setScrollLeft: (left) => tableRef && tableRef.value.setScrollLeft(left),
 })
 
 // 分页 current-change 改变时触发

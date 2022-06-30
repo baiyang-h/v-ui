@@ -9,6 +9,7 @@
     <el-form-item
       v-for="(item, index) in option.columns"
       :key="item.prop || item.label || index"
+      v-bind="$filterObject(item, 'attrs')"
       :label="item.label"
       :prop="item.prop"
     >
@@ -21,6 +22,10 @@
 
       </component>
     </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onOk">确认</el-button>
+      <el-button @click="onCancel">取消</el-button>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -32,6 +37,7 @@ export default {
 <script setup>
 import { ref, reactive, computed, onBeforeMount } from 'vue'
 import typeMap, { placeholderSelectTypeArr } from './type'
+import { merge } from './methods'
 
 const props = defineProps({
   option: {
@@ -45,7 +51,11 @@ const props = defineProps({
     }
   }
 })
-const emit = defineEmits(['validate'])
+const emit = defineEmits([
+  'validate',
+  'onOk',
+  'onCancel'
+])
 
 const formRef = ref()
 const form = reactive({})
@@ -55,13 +65,14 @@ const validate = (...args) => emit('validate', ...args)
 
 // 方法
 defineExpose({
+  formRef,
   validate: (...args) => formRef && formRef.value.validate(...args),
   validateField: (...args) => formRef && formRef.value.validateField(...args),
   resetFields: (...args) => formRef && formRef.value.resetFields(...args),
   scrollToField: (...args) => formRef && formRef.value.scrollToField(...args),
   clearValidate: (...args) => formRef && formRef.value.clearValidate(...args),
+  setFieldsValue,
 })
-
 
 onBeforeMount(() => {
   initForm()
@@ -69,11 +80,19 @@ onBeforeMount(() => {
 
 // 初始化form数据，
 function initForm() {
-  const { columns } = props.option
+  const { columns, rules } = props.option
   // 默认初始化表单数据，初始都为undefined
   columns.forEach(column => {
     form[column.prop] = undefined
   })
+  // 初始化表单规则
+  if(rules) {
+
+  }
+}
+
+function setFieldsValue(values) {
+  merge(form, values)
 }
 
 // 根据type的值获取到相应的表单控件名或者表单组件
@@ -93,20 +112,12 @@ function wrapPlaceholder(row) {
   return placeholderSelectTypeArr.includes(row.type) ? '请选择' : '请输入'
 }
 
-const submitForm = async () => {
-  if (!formRef.value) return
-  await formRef.value.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
-    }
-  })
+// 按钮部分 确认/取消
+const onOk = async () => {
+  emit('onOk', form)
 }
-
-const resetForm = () => {
-  if (!formRef.value) return
-  formRef.value.resetFields()
+const onCancel = () => {
+  emit('onCancel')
 }
 
 </script>

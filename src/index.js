@@ -1,5 +1,5 @@
 import { produceComponentName } from './libs/method'
-// import filterObject from './libs/function/filterObject'
+import filterObject from './libs/function/filterObject'
 // import addUnit from './libs/function/addUnit'
 // import deepMerge from './libs/function/deepMerge'
 
@@ -21,15 +21,28 @@ const components = [
   Form
 ]
 
+const func = {
+  // 将对象中的某个属性或者多个属性过滤掉
+  filterObject
+}
+
 const install = (Vue, opts = {}) => {
   components.forEach(component => {
     Vue.component(produceComponentName(component.name), component);
   });
 
   // 注入全局方法
-  // Object.keys($func).forEach(key => {
-  //   Vue.config.globalProperties['$'+key] = $func[key]
-  // })
+  /*
+   * 1. 可直接在 template 中使用 $filterObject 使用
+   * 2. 选项式api使用 this.$filterObject()
+   * 3. 组合式api使用
+   *    import { getCurrentInstance } from 'vue'
+   *    const instance = getCurrentInstance()
+   *    instance.appContext.config.globalProperties.$filterObject()
+   */
+  Object.keys(func).forEach(key => {
+    Vue.config.globalProperties['$'+key] = func[key]
+  })
 }
 
 /* istanbul ignore if */

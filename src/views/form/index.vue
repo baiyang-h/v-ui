@@ -1,11 +1,24 @@
 <template>
   <div>
-    <p-form :option="option" />
+    <el-row style="margin-bottom: 20px">
+      <el-button type="primary" @click="onOk">提交</el-button>
+      <el-button type="primary" @click="onReset">重置</el-button>
+      <el-button type="primary" @click="onSet">设置值</el-button>
+    </el-row>
+    <p-form
+      ref="formRef"
+      :option="option"
+      @onOk="onOk"
+      @onCancel="onCancel"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
+import { ElMessage } from 'element-plus'
+
+const formRef = ref(null)
 
 const option = {
   columns: [
@@ -16,7 +29,7 @@ const option = {
     },
     {
       type: 'input',
-      prop: 'name',
+      prop: 'input',
       label: '输入框',
       attrs: {
         maxlength: 10,
@@ -30,6 +43,9 @@ const option = {
       type: 'inputNumber',
       prop: 'inputNumber',
       label: '数字输入框',
+      rules: [
+        { required: true, message: '请输入数字', trigger: 'blur' },
+      ]
     },
     {
       type: 'select',
@@ -169,18 +185,38 @@ const option = {
       }
     },
   ],
-  // rules: {
-  //   name: [
-  //     { required: true, message: 'Please input Activity name', trigger: 'blur' },
-  //     { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-  //   ],
-  //   region: [
-  //     {
-  //       required: true,
-  //       message: 'Please select Activity zone',
-  //       trigger: 'change',
-  //     },
-  //   ],
-  // }
+  rules: {
+    input: [
+      { required: true, message: '成功', trigger: 'blur' },
+      { min: 3, max: 5, message: '长度为3-5', trigger: 'blur' },
+    ],
+  }
+}
+
+const onOk = (values) => {
+  if(!formRef.value) return
+  formRef.value.validate((valid) => {
+    if(valid) {
+      console.log(values)
+      ElMessage({
+        message: '成功',
+        type: 'success',
+      })
+    }
+  })
+}
+const onCancel = () => {
+  ElMessage('取消')
+}
+const onReset = () => {
+  formRef.value.resetFields()
+}
+const onSet = () => {
+  if(!formRef.value) return
+  formRef.value.setFieldsValue({
+    input: 'input',
+    inputNumber: 3,
+    select: 'Shanghai',
+  })
 }
 </script>
