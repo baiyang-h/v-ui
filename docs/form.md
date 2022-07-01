@@ -1,3 +1,5 @@
+## 基本
+
 ```vue
 <template>
   <p-form :option="option" />
@@ -173,16 +175,75 @@ const option = reactive({
   }
 })
 </script>
+
 ```
 
+## 默认按钮
+
+除了在外部自定义按钮，如果想要显示配置好的按钮，存在两种方式。 
+1. `option.showBtn = true` 的情况下会显示按钮
+2. 使用插槽外部自定义按钮 `#button`
+3. 直接在组件底部写按钮
+
+方式一
+```vue
+<template>
+  <p-form :option="option" />
+</template>
+
+<script setup>
+const option = {
+  showBtn: true,
+  okText: '自定义按钮文本确认',
+  cancelText: '自定义按钮文本取消',
+  columns: []
+}
+</script>
+```
+
+方式二
+```vue
+<template>
+  <p-form :option="option">
+    <template #button>
+      <el-button type="primary">确认</el-button>
+      <el-button>取消</el-button>
+    </template>
+  </p-form>
+</template>
+```
+
+方式三
+```vue
+<template>
+  <p-form :option="option" />
+  <div>
+    <el-button type="primary">确认</el-button>
+    <el-button>取消</el-button>
+  </div>
+</template>
+```
+
+### Form 插槽
+| 插槽名 | 说明 |
+| ---- | ---- |
+| button    | 如果想要自定义按钮 |
+
+
+
 ### Option
+
 | 属性 | 说明 |
 | ---- | ---- |
 | columns    | 表单配置 |
 | rules    | 表单规则 |
+| showBtn    | 是否显示表单按钮 |
+| okText    | 当显示表单按钮时（确认） |
+| cancelText    | 当显示表单按钮时（取消） |
 
 
 ### Columns
+
 | 属性 | 说明 |
 | ---- | ---- |
 | type    | 表单控件类型 |
@@ -191,8 +252,22 @@ const option = reactive({
 | attrs    |  表单控件的属性  |
 
 ### Form 事件
+
 | 事件名称 | 说明 |
 | ---- | ---- |
 | validate    | 任一表单项被校验后触发 |
 | onOk    | 确定按钮 |
 | onCancel    | 取消按钮 |
+
+### Form 方法
+
+| 方法名 | 说明 |
+| ---- | ---- |
+| validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise |
+| validateField    | 验证具体的某个字段 |
+| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果 |
+| scrollToField    | 滚动到指定的字段 |
+| clearValidate    | 清理某个字段的表单验证信息 |
+| setFieldsValue    | 设置表单的值 |
+| getFieldsValue    | 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值 |
+| getFieldValue    | 获取对应字段名的值 |

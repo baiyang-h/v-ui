@@ -1,13 +1,14 @@
 <template>
   <el-form
     ref="formRef"
-    v-bind="option"
+    :class="$addPrefix('form', false)"
+    v-bind="$filterObject(_option, ['columns', 'showBtn'])"
     :model="form"
-    :rules="option.rules"
+    :rules="_option.rules"
     @validate="validate"
   >
     <el-form-item
-      v-for="(item, index) in option.columns"
+      v-for="(item, index) in _option.columns"
       :key="item.prop || item.label || index"
       v-bind="$filterObject(item, 'attrs')"
       :label="item.label"
@@ -22,10 +23,11 @@
 
       </component>
     </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onOk">确认</el-button>
-      <el-button @click="onCancel">取消</el-button>
+    <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">
+      <el-button type="primary" @click="onOk" :class="$addPrefix('form__btn--ok', false)">{{ _option.okText }}</el-button>
+      <el-button @click="onCancel" :class="$addPrefix('form__btn--cancel', false)">{{ _option.cancelText }}</el-button>
     </el-form-item>
+    <template v-if="$slots.button"><slot name="button" /></template>
   </el-form>
 </template>
 
@@ -35,20 +37,15 @@ export default {
 }
 </script>
 <script setup>
-import { ref, reactive, toRaw, onBeforeMount } from 'vue'
+import {ref, reactive, toRaw, onBeforeMount, computed} from 'vue'
 import typeMap, { placeholderSelectTypeArr } from './type'
 import { merge } from './methods'
+import newProps from './props'
 
 const props = defineProps({
   option: {
     type: Object,
     required: true,
-    default(rawProps) {
-      return {
-        ...rawProps,
-        columns: [],
-      }
-    }
   }
 })
 const emit = defineEmits([
@@ -59,6 +56,12 @@ const emit = defineEmits([
 
 const formRef = ref()
 const form = reactive({})
+
+// 初始化 option，为了给有些属性设置默认值
+const _option = computed(() => ({
+  ...newProps,
+  ...props.option,
+}))
 
 // 事件
 const validate = (...args) => emit('validate', ...args)
@@ -71,8 +74,12 @@ defineExpose({
   resetFields: (...args) => formRef && formRef.value.resetFields(...args),
   scrollToField: (...args) => formRef && formRef.value.scrollToField(...args),
   clearValidate: (...args) => formRef && formRef.value.clearValidate(...args),
+  // 设置表单的值（该值将直接传入 form store 中。如果你不希望传入对象被修改，请克隆后传入）
   setFieldsValue,
-  getFieldsValue
+  // 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值
+  getFieldsValue,
+  // 获取对应字段名的值
+  getFieldValue
 })
 
 onBeforeMount(() => {
@@ -81,14 +88,13 @@ onBeforeMount(() => {
 
 // 初始化form数据，
 function initForm() {
-  const { columns } = props.option
   // 默认初始化表单数据，初始都为undefined
-  columns.forEach(column => {
+  _option.value.columns.forEach(column => {
     form[column.prop] = undefined
   })
 }
 
-// 得到form的属性值
+// 得到全部或多个form的属性值
 function getFieldsValue(nameList=[]) {
   if(nameList.length) {
     let o = {}
@@ -102,7 +108,12 @@ function getFieldsValue(nameList=[]) {
     return toRaw(form)
   }
 }
-
+// 得到单个form的属性值
+function getFieldValue(name) {
+  if(name) {
+    return form[name]
+  }
+}
 // 设置form属性值
 function setFieldsValue(values) {
   merge(form, values)
@@ -127,7 +138,7 @@ function wrapPlaceholder(row) {
 
 // 按钮部分 确认/取消
 const onOk = async () => {
-  emit('onOk', form)
+  emit('onOk', toRaw(form))
 }
 const onCancel = () => {
   emit('onCancel')
@@ -136,5 +147,8 @@ const onCancel = () => {
 </script>
 
 <style scoped>
-
+.el-form :deep(.el-rate) .el-rate__item {
+  display: flex;
+  align-items: center;
+}
 </style>

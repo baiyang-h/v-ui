@@ -8,7 +8,7 @@ import { BRAND } from '@/config/constant'
  * @returns {string|boolean} 返回一个新的名字
  * @constructor
  */
-export function produceComponentName(name='', hump=true, prefix=BRAND) {
+export function addPrefix(name='', hump=true, prefix=BRAND) {
   if(typeof prefix !== 'string' || typeof name !== 'string') return false
   if(hump) { // 驼峰写法
     const _prefix = prefix ? prefix.slice(0,1).toUpperCase() + prefix.slice(1).toLowerCase() : ''

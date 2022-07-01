@@ -20,7 +20,7 @@ export default {
   selectTime: 'el-time-select',
   colorPicker: 'el-color-picker',
   cascader: 'el-cascader',
-  // custom: '自定义'
+  custom: '自定义'
 }
 
 // 显示请选择 placeholder
