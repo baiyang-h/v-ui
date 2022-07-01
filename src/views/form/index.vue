@@ -225,7 +225,7 @@ const option = {
           }
           callback(new Error('请选择北京'))
         },
-        trigger: 'blur'
+        // trigger: 'blur'
       }
     ]
   }
