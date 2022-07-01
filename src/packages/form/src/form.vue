@@ -35,7 +35,7 @@ export default {
 }
 </script>
 <script setup>
-import { ref, reactive, computed, onBeforeMount } from 'vue'
+import { ref, reactive, toRaw, onBeforeMount } from 'vue'
 import typeMap, { placeholderSelectTypeArr } from './type'
 import { merge } from './methods'
 
@@ -72,6 +72,7 @@ defineExpose({
   scrollToField: (...args) => formRef && formRef.value.scrollToField(...args),
   clearValidate: (...args) => formRef && formRef.value.clearValidate(...args),
   setFieldsValue,
+  getFieldsValue
 })
 
 onBeforeMount(() => {
@@ -80,17 +81,29 @@ onBeforeMount(() => {
 
 // 初始化form数据，
 function initForm() {
-  const { columns, rules } = props.option
+  const { columns } = props.option
   // 默认初始化表单数据，初始都为undefined
   columns.forEach(column => {
     form[column.prop] = undefined
   })
-  // 初始化表单规则
-  if(rules) {
+}
 
+// 得到form的属性值
+function getFieldsValue(nameList=[]) {
+  if(nameList.length) {
+    let o = {}
+    nameList.forEach(key => {
+      if(key in form) {
+        o[key] = form[key]
+      }
+    })
+    return o
+  } else {
+    return toRaw(form)
   }
 }
 
+// 设置form属性值
 function setFieldsValue(values) {
   merge(form, values)
 }

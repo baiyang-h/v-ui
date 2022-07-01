@@ -44,7 +44,7 @@ const option = {
       prop: 'inputNumber',
       label: '数字输入框',
       rules: [
-        { required: true, message: '请输入数字', trigger: 'blur' },
+        { required: true, message: '请输入数字' },
       ]
     },
     {
@@ -187,8 +187,7 @@ const option = {
   ],
   rules: {
     input: [
-      { required: true, message: '成功', trigger: 'blur' },
-      { min: 3, max: 5, message: '长度为3-5', trigger: 'blur' },
+      { required: true, message: '成功' },
     ],
   }
 }
@@ -214,9 +213,21 @@ const onReset = () => {
 const onSet = () => {
   if(!formRef.value) return
   formRef.value.setFieldsValue({
-    input: 'input',
+    text: '我是文本',
+    input: '我是input',
     inputNumber: 3,
     select: 'Shanghai',
+    radioGroup: 'Beijing',
+    checkbox: true,
+    checkboxGroup: ['Shanghai', 'HangZhou'],
+    switch: true,
+    rate: 3,
+    slider: 37,
+    time: 'Fri Jul 01 2022 11:22:28 GMT+0800 (中国标准时间)',
+    date: ['Mon Jul 11 2022 00:00:00 GMT+0800 (中国标准时间)', 'Wed Aug 24 2022 00:00:00 GMT+0800 (中国标准时间)'],
+    selectTime: '11:30',
+    colorPicker: '#D90F0F',
+    cascader: ['zhinan','daohang','dingbudaohang']
   })
 }
 </script>

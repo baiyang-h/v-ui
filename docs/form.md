@@ -179,6 +179,7 @@ const option = reactive({
 | 属性 | 说明 |
 | ---- | ---- |
 | columns    | 表单配置 |
+| rules    | 表单规则 |
 
 
 ### Columns
