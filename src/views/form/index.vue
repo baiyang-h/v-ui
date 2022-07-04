@@ -216,6 +216,7 @@ const option = {
     custom2: [
       {
         validator(rule, value, callback) {
+          console.log(222222)
           if(!value) return callback(new Error('必填'))
           if(!value.input && value.select) {
             return callback(new Error('必填2'))

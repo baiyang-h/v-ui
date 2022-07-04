@@ -9,6 +9,7 @@
   >
     <el-form-item
       v-for="(item, index) in _option.columns"
+      :ref="el => setFormItemRef(item, el)"
       :key="item.prop || item.label || index"
       v-bind="$filterObject(item, 'attrs')"
       :label="item.label"
@@ -37,10 +38,11 @@ export default {
 }
 </script>
 <script setup>
-import {ref, reactive, toRaw, onBeforeMount, computed} from 'vue'
+import {ref, reactive, toRaw, onBeforeMount, computed, onMounted} from 'vue'
 import typeMap, { placeholderSelectTypeArr } from './type'
 import { merge } from './methods'
 import newProps from './props'
+import _ from 'lodash'
 
 const props = defineProps({
   option: {
@@ -56,6 +58,7 @@ const emit = defineEmits([
 
 const formRef = ref()
 const form = reactive({})
+const formItemRefs = reactive({})
 
 // 初始化 option，为了给有些属性设置默认值
 const _option = computed(() => ({
@@ -71,7 +74,7 @@ defineExpose({
   formRef,
   validate: (...args) => formRef && formRef.value.validate(...args),
   validateField: (...args) => formRef && formRef.value.validateField(...args),
-  resetFields: (...args) => formRef && formRef.value.resetFields(...args),
+  resetFields,
   scrollToField: (...args) => formRef && formRef.value.scrollToField(...args),
   clearValidate: (...args) => formRef && formRef.value.clearValidate(...args),
   // 设置表单的值（该值将直接传入 form store 中。如果你不希望传入对象被修改，请克隆后传入）
@@ -79,11 +82,16 @@ defineExpose({
   // 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值
   getFieldsValue,
   // 获取对应字段名的值
-  getFieldValue
+  getFieldValue,
+  // 获取对应字段名的ref
+  getFieldRef
 })
 
 onBeforeMount(() => {
   initForm()
+})
+onMounted(() => {
+  console.log(formItemRefs)
 })
 
 // 初始化form数据，
@@ -118,6 +126,32 @@ function getFieldValue(name) {
 function setFieldsValue(values) {
   merge(form, values)
 }
+// 得到单个formItem的ref
+function getFieldRef(name) {
+  if(name) {
+    return formItemRefs[name]
+  }
+}
+// 重置所有表单内容和状态
+function resetFields(...args) {
+  if(formRef) {
+    formRef.value.resetFields(...args)
+    // fix: 此处多此一举时因为在对自定义的组件进行重置的时候，如果fom传入的是对象的形式，多个表单，重置后检验会执行，所以对自定义的表单重新 resetField
+    setTimeout(() => {
+      Object.keys(formItemRefs).forEach(key => {
+        formItemRefs[key].resetField()
+      })
+    })
+
+    // function aa(list) {
+    //   list.forEach(item => {
+    //     if(item.prop) {
+    //
+    //     }
+    //   })
+    // }
+  }
+}
 
 // 根据type的值获取到相应的表单控件名或者表单组件
 function getComNameOrModule(item) {
@@ -134,6 +168,11 @@ function getComNameOrModule(item) {
 function wrapPlaceholder(row) {
   if(row.attrs && row.attrs.placeholder) return row.attrs.placeholder
   return placeholderSelectTypeArr.includes(row.type) ? '请选择' : '请输入'
+}
+
+// 初始化设置 form-item 的每个 ref
+function setFormItemRef(row, ref) {
+  formItemRefs[row.prop] = ref
 }
 
 // 按钮部分 确认/取消

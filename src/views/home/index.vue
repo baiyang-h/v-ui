@@ -8,17 +8,36 @@
       :size="formSize"
       status-icon
   >
-    <el-form-item label="Activity name" prop="name">
+    <el-row>
+      <el-form-item label="Activity 111" prop="name">
+        <el-input v-model="ruleForm.name" />
+      </el-form-item>
+    </el-row>
+    <el-form-item label="Activity 222" prop="name">
       <el-input v-model="ruleForm.name" />
     </el-form-item>
-    <el-form-item label="Activity zone" prop="region">
-      <el-select v-model="ruleForm.region" placeholder="Activity zone">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="inputNumber" prop="num">
-      <el-input-number v-model="ruleForm.num" :min="1" :max="10" />
+    <el-row>
+      <el-col :span="12">
+        <el-form-item label="Activity zone" prop="region">
+          <el-select v-model="ruleForm.region" placeholder="Activity zone">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="inputNumber" prop="num">
+          <el-input-number v-model="ruleForm.num" :min="1" :max="10" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-form-item label="inputNumber" prop="dic">
+      <el-form-item prop="a">
+        <el-input />
+      </el-form-item>
+      <el-form-item prop="b">
+        <el-input />
+      </el-form-item>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)"
