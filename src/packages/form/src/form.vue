@@ -7,23 +7,12 @@
     :rules="_option.rules"
     @validate="validate"
   >
-    <el-form-item
+    <form-item-dynamic
       v-for="(item, index) in _option.columns"
-      :ref="el => setFormItemRef(item, el)"
       :key="item.prop || item.label || index"
-      v-bind="$filterObject(item, 'attrs')"
-      :label="item.label"
-      :prop="item.prop"
-    >
-      <component
-        :is="getComNameOrModule(item)"
-        v-bind="item.attrs"
-        :placeholder="wrapPlaceholder(item)"
-        v-model="form[item.prop]"
-      >
-
-      </component>
-    </el-form-item>
+      :row="item"
+      v-model="form"
+    />
     <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">
       <el-button type="primary" @click="onOk" :class="$addPrefix('form__btn--ok', false)">{{ _option.okText }}</el-button>
       <el-button @click="onCancel" :class="$addPrefix('form__btn--cancel', false)">{{ _option.cancelText }}</el-button>
@@ -39,10 +28,9 @@ export default {
 </script>
 <script setup>
 import {ref, reactive, toRaw, onBeforeMount, computed, onMounted} from 'vue'
-import typeMap, { placeholderSelectTypeArr } from './type'
 import { merge } from './methods'
 import newProps from './props'
-import _ from 'lodash'
+import FormItemDynamic from './item-dynamic.vue'
 
 const props = defineProps({
   option: {
@@ -97,9 +85,19 @@ onMounted(() => {
 // 初始化form数据，
 function initForm() {
   // 默认初始化表单数据，初始都为undefined
-  _option.value.columns.forEach(column => {
-    form[column.prop] = undefined
-  })
+  const fn = (children, obj) => {
+    children.forEach(child => {
+      if(child.type === 'row') {
+        fn(child.children, obj)
+      } else if(child.type === 'col') {
+        obj[child.prop] = {}
+        fn(child.children, obj[child.prop])
+      } else {
+        obj[child.prop] = undefined
+      }
+    })
+  }
+  fn(_option.value.columns, form)
 }
 
 // 得到全部或多个form的属性值
@@ -151,23 +149,6 @@ function resetFields(...args) {
     //   })
     // }
   }
-}
-
-// 根据type的值获取到相应的表单控件名或者表单组件
-function getComNameOrModule(item) {
-  if(item.type === 'custom') {
-    return item.component
-  } else if(item.type === 'html') {
-    return item.html
-  } else {
-    return typeMap[item.type]
-  }
-}
-
-// 初始化表单控件的 placeholder
-function wrapPlaceholder(row) {
-  if(row.attrs && row.attrs.placeholder) return row.attrs.placeholder
-  return placeholderSelectTypeArr.includes(row.type) ? '请选择' : '请输入'
 }
 
 // 初始化设置 form-item 的每个 ref

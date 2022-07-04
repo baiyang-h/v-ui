@@ -1,6 +1,6 @@
 <template>
   <el-row
-    if="row.type === 'row'"
+    v-if="row.type === 'row'"
     :gutter="row.gutter"
     :justify="row.justify"
     :align="row.align"
@@ -20,41 +20,43 @@
       :xl="item.xl"
       :tag="item.tag"
     >
-      <form-item :row="item">
-        <slot />
-      </form-item>
+      <form-item-dynamic
+        :row="item"
+        v-model="modelValue"
+      />
     </el-col>
   </el-row>
   <el-form-item
     v-else-if="row.type === 'col'"
   >
-    <form-item
+    <form-item-dynamic
       v-for="(item, index) in row.children"
       :key="item.prop || item.label || index"
       :row="item"
-    >
-      <slot />
-    </form-item>
+      v-model="modelValue[row.prop]"
+    />
   </el-form-item>
-  <el-form-item
+  <form-item-default
     v-else
-    v-bind="filterFormItemProps"
-    :label="row.label"
-    :prop="row.prop"
-  >
-    <slot />
-  </el-form-item>
+    :row="row"
+    :modelValue="modelValue[row.prop]"
+    @update:modelValue="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <script>
 export default {
-  name: 'FormItem'
+  name: 'FormItemDynamic'
 }
 </script>
 <script setup>
-import { computed, getCurrentInstance } from 'vue'
+import { computed } from 'vue'
+import FormItemDefault from './item-default.vue'
 
 const props = defineProps({
+  modelValue: {
+    default: undefined
+  },
   row: {
     type: Object,
     default() {
@@ -62,12 +64,12 @@ const props = defineProps({
     }
   }
 })
+defineEmits(['update:modelValue'])
 
-const instance = getCurrentInstance()
+const defaultSpan = computed(() => {
+  if(props.row.children && props.row.children.length) return 24/props.row.children.length
 
-const defaultSpan = computed(() => 24/props.row.children.length)
-// 过滤不必要的属性
-const filterFormItemProps = computed(() => instance.appContext.config.globalProperties.$filterObject(props.row, ['attrs', 'span', 'offset', 'push', 'pull', 'xs', 'sm', 'md', 'lg', 'xl', 'tag']))
+})
 </script>
 
 <style scoped>
