@@ -37,10 +37,29 @@ const option = {
           prop: 'input1',
         },
         {
-          type: 'input',
-          label: 'Input2',
+          type: 'col',
           prop: 'input2',
+          children: [
+            {
+              type: 'input',
+              label: 'aaa',
+              prop: 'aaa',
+            },
+            {
+              type: 'input',
+              label: 'bbb',
+              prop: 'bbb',
+            }
+          ]
         }
+      ]
+    },
+    {
+      type: 'col',
+      label: 'Col',
+      prop: 'col',
+      children: [
+
       ]
     }
   ],

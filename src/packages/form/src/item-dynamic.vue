@@ -23,7 +23,8 @@
       <form-item-dynamic
         :row="item"
         :prop="getDepthProp(item.prop)"
-        v-model="modelValue"
+        :modelValue="modelValue"
+        @update:modelValue="setFormModel"
       />
     </el-col>
   </el-row>
@@ -36,7 +37,8 @@
       :key="item.prop || item.label || index"
       :row="item"
       :prop="getDepthProp(item.prop)"
-      v-model="modelValue[row.prop]"
+      :modelValue="modelValue[row.prop]"
+      @update:modelValue="setFormModel"
     />
   </el-form-item>
   <form-item-default
@@ -44,7 +46,7 @@
     :row="row"
     :prop="prop"
     :modelValue="modelValue[row.prop]"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="setFormModel"
   />
 </template>
 
@@ -65,6 +67,14 @@ const props = defineProps({
     type: Object,
     default() {
       return {}
+    },
+    validator(value) {
+      console.log(11, value)
+      if(value.type === 'row' || value.type === 'col') {
+        throw new Error('注意: 类型为 row 或 col ')
+        return false
+      }
+      return true
     }
   },
   prop: {
@@ -72,7 +82,7 @@ const props = defineProps({
     default: ''
   }
 })
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
 const defaultSpan = computed(() => {
   if(props.row.children && props.row.children.length) return 24/props.row.children.length
@@ -85,6 +95,10 @@ const getDepthProp = (nowProp) => {
   } else {
     return nowProp
   }
+}
+
+const setFormModel = (value, depProp) => {
+  emit('update:modelValue', value, depProp)
 }
 </script>
 

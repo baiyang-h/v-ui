@@ -12,7 +12,8 @@
       :key="item.prop || item.label || index"
       :row="item"
       :prop="item.prop"
-      v-model="form"
+      :modelValue="form"
+      @update:modelValue="setFormModel"
     />
     <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">
       <el-button type="primary" @click="onOk" :class="$addPrefix('form__btn--ok', false)">{{ _option.okText }}</el-button>
@@ -29,6 +30,7 @@ export default {
 </script>
 <script setup>
 import {ref, reactive, toRaw, onBeforeMount, computed, onMounted} from 'vue'
+import _ from 'lodash'
 import { merge } from './methods'
 import newProps from './props'
 import FormItemDynamic from './item-dynamic.vue'
@@ -163,6 +165,13 @@ const onOk = async () => {
 }
 const onCancel = () => {
   emit('onCancel')
+}
+
+// 表单控件值改变
+const setFormModel = (v, depProp) => {
+  // v为修改的值， depProp为属性名 存在 from.a.b = 1 这种情况
+  const propKeys = depProp.split('.')
+  _.set(form, propKeys, v)
 }
 
 </script>

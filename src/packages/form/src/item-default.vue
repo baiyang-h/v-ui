@@ -9,7 +9,7 @@
       v-bind="row.attrs"
       :placeholder="wrapPlaceholder"
       :modelValue="modelValue"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:modelValue="$emit('update:modelValue', $event, prop)"
     />
   </el-form-item>
 </template>
