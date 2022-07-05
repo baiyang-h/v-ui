@@ -11,6 +11,7 @@
       v-for="(item, index) in _option.columns"
       :key="item.prop || item.label || index"
       :row="item"
+      :prop="item.prop"
       v-model="form"
     />
     <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">

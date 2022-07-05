@@ -2,7 +2,7 @@
   <el-form-item
     v-bind="filterFormItemProps"
     :label="row.label"
-    :prop="row.prop"
+    :prop="prop"
   >
     <component
       :is="getComNameOrModule(row)"
@@ -33,6 +33,10 @@ const props = defineProps({
     default() {
       return {}
     }
+  },
+  prop: {
+    type: String,
+    default: ''
   }
 })
 defineEmits(['update:modelValue'])
