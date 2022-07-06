@@ -2,9 +2,19 @@
   <el-form
     ref="formRef"
     :class="$addPrefix('form', false)"
-    v-bind="$filterObject(_option, ['columns', 'showBtn'])"
     :model="form"
     :rules="_option.rules"
+    :inline="_option.inline"
+    :label-position="_option.labelPosition"
+    :label-width="_option.labelWidth"
+    :label-suffix="_option.labelSuffix"
+    :hide-required-asterisk="_option.hideRequiredAsterisk"
+    :show-message="_option.showMessage"
+    :inline-message="_option.inlineMessage"
+    :status-icon="_option.statusIcon"
+    :validate-on-rule-change="_option.validateOnRuleChange"
+    :size="_option.size"
+    :disabled="_option.disabled"
     @validate="validate"
   >
     <form-item-dynamic
@@ -16,8 +26,20 @@
       @update:modelValue="setFormModel"
     />
     <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">
-      <el-button type="primary" @click="onOk" :class="$addPrefix('form__btn--ok', false)">{{ _option.okText }}</el-button>
-      <el-button @click="onCancel" :class="$addPrefix('form__btn--cancel', false)">{{ _option.cancelText }}</el-button>
+      <el-button
+        type="primary"
+        :class="$addPrefix('form__btn--ok', false)"
+        @click="onOk"
+      >
+        {{ _option.okText }}
+      </el-button>
+      <el-button
+        v-if="_option.showCancelBtn"
+        :class="$addPrefix('form__btn--cancel', false)"
+        @click="onCancel"
+      >
+        {{ _option.cancelText }}
+      </el-button>
     </el-form-item>
     <template v-if="$slots.button"><slot name="button" /></template>
   </el-form>

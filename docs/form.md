@@ -451,6 +451,7 @@ const option = {
 | columns    | 表单配置 |
 | rules    | 表单规则 |
 | showBtn    | 是否显示表单按钮 |
+| showCancelBtn    | 是否显示取消按钮 |
 | okText    | 当显示表单按钮时（确认） |
 | cancelText    | 当显示表单按钮时（取消） |
 
@@ -476,36 +477,36 @@ const option = {
 
 | 方法名 | 说明 |
 | ---- | ---- |
-| validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise |
-| validateField    | 验证具体的某个字段 |
-| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果 |
-| scrollToField    | 滚动到指定的字段 |
-| clearValidate    | 清理某个字段的表单验证信息 |
-| setFieldsValue    | 设置表单的值 |
-| getFieldsValue    | 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值 |
-| getFieldValue    | 获取对应字段名的值 |
+| validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise
+| validateField    | 验证具体的某个字段
+| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果。方法中可传入一个数组，数组中可以是需要重置的prop，对于类型是col的需要嵌套的prop，如 a.b.c
+| scrollToField    | 滚动到指定的字段
+| clearValidate    | 清理某个字段的表单验证信息
+| setFieldsValue    | 设置表单的值
+| getFieldsValue    | 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值
+| getFieldValue    | 获取对应字段名的值
 
 ### Type 表单类型
 
 | 属性 | 说明 |
 | ---- | ---- |
-| row    |  |
-| col    |    |
-| text    |    |
-| input    |    |
-| inputNumber    |    |
-| select    |    |
-| radioGroup    |    |
-| checkbox    |    |
-| checkboxGroup    |    |
-| rate    |    |
-| slider    |    |
-| switch    |    |
-| time    |    |
-| date    |    |
-| selectTime    |    |
-| colorPicker    |    |
-| cascader    |    |
-| custom    |    |
+| row    | 栅格的形式，列在 children 中定义 |
+| col    |  嵌套表单 form.a.b，嵌套的表单在 children 中定义  |
+| text    |  文本  |
+| input    |  输入框  |
+| inputNumber    |  数字输入框  |
+| select    |  选择框  |
+| radioGroup    |  单选组  |
+| checkbox    |  复选框  |
+| checkboxGroup    |  复选框组  |
+| rate    |  评分  |
+| slider    |  滑块  |
+| switch    |  开关  |
+| time    |  时间选择器  |
+| date    |  日期选择器  |
+| selectTime    |  时间下拉选择器  |
+| colorPicker    |  颜色选择器  |
+| cascader    |  级联  |
+| custom    |  自定义组件  |
 
 
