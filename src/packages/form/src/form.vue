@@ -29,7 +29,7 @@ export default {
 }
 </script>
 <script setup>
-import {ref, reactive, toRaw, onBeforeMount, computed, onMounted} from 'vue'
+import {ref, reactive, toRaw, onBeforeMount, computed, onMounted, provide} from 'vue'
 import _ from 'lodash'
 import { merge } from './methods'
 import newProps from './props'
@@ -57,6 +57,11 @@ const _option = computed(() => ({
   ...props.option,
 }))
 
+provide('instance', {
+  // 提供给子组件一个设置 form-item 的ref的方法
+  setFormItemRef
+})
+
 // 事件
 const validate = (...args) => emit('validate', ...args)
 
@@ -65,6 +70,7 @@ defineExpose({
   formRef,
   validate: (...args) => formRef && formRef.value.validate(...args),
   validateField: (...args) => formRef && formRef.value.validateField(...args),
+  // 可传入一个数组表示要重置的表单 resetFields(['a1', 'b.b1'])
   resetFields,
   scrollToField: (...args) => formRef && formRef.value.scrollToField(...args),
   clearValidate: (...args) => formRef && formRef.value.clearValidate(...args),
@@ -80,9 +86,6 @@ defineExpose({
 
 onBeforeMount(() => {
   initForm()
-})
-onMounted(() => {
-  console.log(formItemRefs)
 })
 
 // 初始化form数据，
@@ -108,9 +111,7 @@ function getFieldsValue(nameList=[]) {
   if(nameList.length) {
     let o = {}
     nameList.forEach(key => {
-      if(key in form) {
-        o[key] = form[key]
-      }
+      o[key] = _.get(form, key)
     })
     return o
   } else {
@@ -118,9 +119,9 @@ function getFieldsValue(nameList=[]) {
   }
 }
 // 得到单个form的属性值
-function getFieldValue(name) {
-  if(name) {
-    return form[name]
+function getFieldValue(depProp) {
+  if(depProp) {
+    return _.get(form, depProp);
   }
 }
 // 设置form属性值
@@ -134,29 +135,28 @@ function getFieldRef(name) {
   }
 }
 // 重置所有表单内容和状态
-function resetFields(...args) {
+function resetFields(args=[]) {
   if(formRef) {
-    formRef.value.resetFields(...args)
     // fix: 此处多此一举时因为在对自定义的组件进行重置的时候，如果fom传入的是对象的形式，多个表单，重置后检验会执行，所以对自定义的表单重新 resetField
-    setTimeout(() => {
-      Object.keys(formItemRefs).forEach(key => {
-        formItemRefs[key].resetField()
+    if(args && args.length) {
+      setTimeout(() => {
+        args.forEach(key => {
+          formItemRefs[key].resetField()
+        })
       })
-    })
-
-    // function aa(list) {
-    //   list.forEach(item => {
-    //     if(item.prop) {
-    //
-    //     }
-    //   })
-    // }
+    } else {
+      setTimeout(() => {
+        Object.values(formItemRefs).forEach(value => {
+          value.resetField()
+        })
+      })
+    }
   }
 }
 
-// 初始化设置 form-item 的每个 ref
-function setFormItemRef(row, ref) {
-  formItemRefs[row.prop] = ref
+// 初始将 form-item 的每个 ref 保存到 formItemRefs
+function setFormItemRef(ref, depProp) {
+  formItemRefs[depProp] = ref
 }
 
 // 按钮部分 确认/取消

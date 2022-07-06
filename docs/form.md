@@ -178,6 +178,221 @@ const option = reactive({
 
 ```
 
+## 布局
+
+### 布局一
+```vue
+<template>
+  <el-form>
+    <el-form-item prop="a1" label="Input">
+      <el-input />
+    </el-form-item>
+    <el-form-item prop="a2" label="Input">
+      <el-input />
+    </el-form-item>
+  </el-form>
+</template>
+```
+对应如下代码
+```js
+const option1 = {
+  showBtn: true,
+  columns: [
+    {
+      type: 'input',
+      label: 'Input',
+      prop: 'a1'
+    },
+    {
+      type: 'input',
+      label: 'Input',
+      prop: 'a2'
+    },
+  ],
+  rules: {
+    a1:  [
+      { required: true, message: '必填' },
+    ],
+    a2:  [
+      { required: true, message: '必填' },
+    ],
+  }
+}
+```
+
+### 布局二
+
+```vue
+<template>
+  <el-form>
+    <el-form-item prop="a">
+      <el-form-item prop="a.a1" label="Input">
+        <el-input />
+      </el-form-item>
+      <el-form-item prop="a.a2" label="Input">
+        <el-input />
+      </el-form-item>
+    </el-form-item>
+  </el-form>
+</template>
+```
+对应如下
+```js
+const option2 = {
+  showBtn: true,
+  columns: [
+    {
+      type: 'col',
+      prop: 'a',
+      children: [
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a1'
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a2'
+        },
+      ]
+    },
+    {
+      type: 'col',
+      label: 'Col',
+      prop: 'b',
+      children: [
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'b1'
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'b2'
+        },
+      ]
+    }
+  ],
+  rules: {
+    b: [
+      { required: true, message: '必填' },
+      {
+        validator(rule, value, callback) {
+          if (!value) return callback(new Error('必填'))
+          if(value.b1 && value.b2) {
+            callback()
+          } else {
+            callback(new Error('必填'))
+          }
+        }
+      }
+    ],
+    'a.a1':  [
+      { required: true, message: '必填' },
+    ],
+    'a.a2':  [
+      { required: true, message: '必填' },
+    ],
+  }
+}
+```
+
+### 布局三
+
+```vue
+<template>
+  <el-form>
+    <el-row>
+      <el-col :span="12">
+        <el-form-item prop="a1" label="Input"></el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="a2" label="Input"></el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="6">
+        <el-form-item prop="c1" label="Input"></el-form-item>
+      </el-col>
+      <el-col :span="6">
+        <el-form-item prop="c2" label="Input"></el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="c3" label="Input"></el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
+```
+对应代码
+```js
+const option3 = {
+  showBtn: true,
+  columns: [
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a1'
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a2',
+        }
+      ]
+    },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'c1',
+          span: 6
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'c2',
+          span: 6
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'c3',
+          span: 12
+        },
+      ]
+    },
+  ],
+  rules: {
+    z1: [
+      { required: true, message: '必填' },
+    ],
+    a1: [
+      { required: true, message: '必填' },
+    ],
+    a2: [
+      { required: true, message: '必填' },
+    ],
+    b1: [
+      { required: true, message: '必填' },
+    ],
+    b2: [
+      { required: true, message: '必填' },
+    ],
+    b3: [
+      { required: true, message: '必填' },
+    ],
+  }
+}
+```
+
 ## 默认按钮
 
 除了在外部自定义按钮，如果想要显示配置好的按钮，存在两种方式。 
@@ -229,8 +444,6 @@ const option = {
 | ---- | ---- |
 | button    | 如果想要自定义按钮 |
 
-
-
 ### Option
 
 | 属性 | 说明 |
@@ -246,7 +459,7 @@ const option = {
 
 | 属性 | 说明 |
 | ---- | ---- |
-| type    | 表单控件类型 |
+| type    | 表单控件类型, 类型说明如下 |
 | label    |  标签文本  |
 | prop    |  model 的键名  |
 | attrs    |  表单控件的属性  |
@@ -271,3 +484,28 @@ const option = {
 | setFieldsValue    | 设置表单的值 |
 | getFieldsValue    | 获取一组字段名对应的值，会按照对应结构返回。默认返回现存字段值，当调用 getFieldsValue() 时返回所有值， getFieldsValue([key1, key2]) 多个值 |
 | getFieldValue    | 获取对应字段名的值 |
+
+### Type 表单类型
+
+| 属性 | 说明 |
+| ---- | ---- |
+| row    |  |
+| col    |    |
+| text    |    |
+| input    |    |
+| inputNumber    |    |
+| select    |    |
+| radioGroup    |    |
+| checkbox    |    |
+| checkboxGroup    |    |
+| rate    |    |
+| slider    |    |
+| switch    |    |
+| time    |    |
+| date    |    |
+| selectTime    |    |
+| colorPicker    |    |
+| cascader    |    |
+| custom    |    |
+
+

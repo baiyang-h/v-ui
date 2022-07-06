@@ -1,6 +1,7 @@
 <template>
   <el-form-item
     v-bind="filterFormItemProps"
+    :ref="(el) => instance.setFormItemRef(el, prop)"
     :label="row.label"
     :prop="prop"
   >
@@ -20,7 +21,7 @@ export default {
 }
 </script>
 <script setup>
-import {computed} from "vue";
+import {computed, inject} from "vue";
 import filterObject from '@/libs/function/filterObject'
 import typeMap, {placeholderSelectTypeArr} from "./type";
 
@@ -41,6 +42,8 @@ const props = defineProps({
 })
 defineEmits(['update:modelValue'])
 
+const instance = inject('instance')
+
 // 过滤不必要的属性
 const filterFormItemProps = computed(() => filterObject(props.row, ['attrs', 'span', 'offset', 'push', 'pull', 'xs', 'sm', 'md', 'lg', 'xl', 'tag']))
 const wrapPlaceholder = computed(() => {
@@ -60,3 +63,9 @@ function getComNameOrModule(item) {
 }
 
 </script>
+
+<style scoped>
+.el-form-item {
+  margin-right: 10px;
+}
+</style>

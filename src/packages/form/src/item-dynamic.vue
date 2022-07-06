@@ -8,7 +8,7 @@
   >
     <el-col
       v-for="(item, index) in row.children"
-      :key="getDepthProp(item.prop) || item.label || index"
+      :key="getDepthProp(item) || item.label || index"
       :span="item.span || defaultSpan"
       :offset="item.offset"
       :push="item.push"
@@ -22,7 +22,7 @@
     >
       <form-item-dynamic
         :row="item"
-        :prop="getDepthProp(item.prop)"
+        :prop="getDepthProp(item)"
         :modelValue="modelValue"
         @update:modelValue="setFormModel"
       />
@@ -30,13 +30,16 @@
   </el-row>
   <el-form-item
     v-else-if="row.type === 'col'"
+    v-bind="$filterObject(row, ['type', 'label', 'prop', 'children'])"
     :prop="prop"
+    :label="row.label"
+    :ref="(el) => instance.setFormItemRef(el, prop)"
   >
     <form-item-dynamic
       v-for="(item, index) in row.children"
       :key="item.prop || item.label || index"
       :row="item"
-      :prop="getDepthProp(item.prop)"
+      :prop="getDepthProp(item)"
       :modelValue="modelValue[row.prop]"
       @update:modelValue="setFormModel"
     />
@@ -56,7 +59,7 @@ export default {
 }
 </script>
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import FormItemDefault from './item-default.vue'
 
 const props = defineProps({
@@ -69,10 +72,10 @@ const props = defineProps({
       return {}
     },
     validator(value) {
-      console.log(11, value)
       if(value.type === 'row' || value.type === 'col') {
-        throw new Error('注意: 类型为 row 或 col ')
-        return false
+        if(!value.children) {
+          throw new Error('注意: 类型为 row 或 col 必须包含 children 属性')
+        }
       }
       return true
     }
@@ -84,16 +87,22 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
+const instance = inject('instance')
+
 const defaultSpan = computed(() => {
   if(props.row.children && props.row.children.length) return 24/props.row.children.length
 })
 
 // 如果form是一个深度的对象， prop 需要接连，如 a.b.c
-const getDepthProp = (nowProp) => {
+const getDepthProp = (item) => {
   if(props.prop) {
-    return props.prop + '.' + nowProp
+    if(item.type === 'row') {
+      return props.prop
+    } else {
+      return props.prop + '.' + item.prop
+    }
   } else {
-    return nowProp
+    return item.prop
   }
 }
 
@@ -101,7 +110,3 @@ const setFormModel = (value, depProp) => {
   emit('update:modelValue', value, depProp)
 }
 </script>
-
-<style scoped>
-
-</style>

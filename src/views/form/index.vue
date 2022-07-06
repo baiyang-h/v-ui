@@ -29,38 +29,181 @@ const option = {
   cancelText: '取消',
   columns: [
     {
-      type: 'row',
-      children: [
-        {
-          type: 'input',
-          label: 'Input1',
-          prop: 'input1',
-        },
-        {
-          type: 'col',
-          prop: 'input2',
-          children: [
-            {
-              type: 'input',
-              label: 'aaa',
-              prop: 'aaa',
-            },
-            {
-              type: 'input',
-              label: 'bbb',
-              prop: 'bbb',
-            }
-          ]
-        }
+      type: 'text',
+      prop: 'text',
+      label: '文本',
+      attrs: {
+        color: 'red'
+      }
+    },
+    {
+      type: 'input',
+      prop: 'input',
+      label: '输入框',
+      attrs: {
+        maxlength: 10,
+        minlength: 1,
+        'show-word-limit': true,
+        placeholder: '请输入内容',
+        clearable: true,
+      }
+    },
+    {
+      type: 'inputNumber',
+      prop: 'inputNumber',
+      label: '数字输入框',
+      rules: [
+        { required: true, message: '请输入数字' },
       ]
     },
     {
-      type: 'col',
-      label: 'Col',
-      prop: 'col',
-      children: [
-
-      ]
+      type: 'select',
+      prop: 'select',
+      label: '选择框',
+      attrs: {
+        options: [
+          {
+            value: 'Shanghai',
+            label: '上海'
+          }, {
+            value: 'Beijing',
+            label: '北京'
+          }
+        ]
+      }
+    },
+    {
+      type: 'radioGroup',
+      prop: 'radioGroup',
+      label: '单选',
+      attrs: {
+        options: [
+          {
+            value: 'Shanghai',
+            label: '上海'
+          }, {
+            value: 'Beijing',
+            label: '北京'
+          }, {
+            value: 'hangzhou',
+            label: '杭州',
+            disabled: true
+          },
+        ]
+      }
+    },
+    {
+      type: 'checkbox',
+      prop: 'checkbox',
+      label: '复选框',
+    },
+    {
+      type: 'checkboxGroup',
+      prop: 'checkboxGroup',
+      label: '复选框组',
+      attrs: {
+        options: [
+          {
+            value: 'Shanghai',
+            label: '上海'
+          }, {
+            value: 'Beijing',
+            label: '北京'
+          }, {
+            value: 'HangZhou',
+            label: '杭州',
+            disabled: true
+          },
+        ]
+      }
+    },
+    {
+      type: 'rate',
+      prop: 'rate',
+      label: '评分',
+    },
+    {
+      type: 'slider',
+      prop: 'slider',
+      label: '滑块',
+    },
+    {
+      type: 'switch',
+      prop: 'switch',
+      label: '开关',
+    },
+    {
+      type: 'time',
+      prop: 'time',
+      label: '时间选择器',
+    },
+    {
+      type: 'date',
+      prop: 'date',
+      label: '日期选择器',
+      attrs: {
+        type: 'daterange'
+      }
+    },
+    {
+      type: 'selectTime',
+      prop: 'selectTime',
+      label: '时间选择',
+    },
+    {
+      type: 'colorPicker',
+      prop: 'colorPicker',
+      label: '颜色选择器',
+    },
+    {
+      type: 'cascader',
+      prop: 'cascader',
+      label: '级联选择器',
+      attrs: {
+        options: [{
+          value: 'zhinan',
+          label: '指南',
+          children: [{
+            value: 'shejiyuanze',
+            label: '设计原则',
+            children: [{
+              value: 'yizhi',
+              label: '一致'
+            }, {
+              value: 'fankui',
+              label: '反馈'
+            }, {
+              value: 'xiaolv',
+              label: '效率'
+            }, {
+              value: 'kekong',
+              label: '可控'
+            }]
+          }, {
+            value: 'daohang',
+            label: '导航',
+            children: [{
+              value: 'cexiangdaohang',
+              label: '侧向导航'
+            }, {
+              value: 'dingbudaohang',
+              label: '顶部导航'
+            }]
+          }]
+        }]
+      }
+    },
+    {
+      type: 'custom',
+      prop: 'custom1',
+      label: '自定义1',
+      component: Custom1
+    },
+    {
+      type: 'custom',
+      prop: 'custom2',
+      label: '自定义2',
+      component: Custom2
     }
   ],
   rules: {
