@@ -2,19 +2,19 @@
 
 ```vue
 <template>
-  <p-radio-group
-    v-model="radio"
+  <p-checkbox-group
+    v-model="checkbox"
     :options="options"
     @change="change"
   >
-  </p-radio-group>
+  </p-checkbox-group>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      radio: '广州',
+      checkbox: [],
       options: [
         {value: 1, label: 'aaa' },
         {value: 2, label: 'bbb', disabled: true},
@@ -29,6 +29,7 @@ export default {
 }
 </script>
 ```
+
 
 ```js
 // options 可写成如下
@@ -57,27 +58,28 @@ export default {
 如果配置方式想要按钮样式，需要使用 `mode="button"`
 
 ```vue
-<p-radio-group
-  v-model="radio"
+<p-checkbox-group
+  v-model="checkbox"
   :options="options"
   mode="button"
   @change="change"
 >
-</p-radio-group>
+</p-checkbox-group>
 
-// 默认 不写 为 radio
-<p-radio-group
-  v-model="radio"
+// 默认 不写 为 checkbox
+<p-checkbox-group
+  v-model="checkbox"
   :options="options"
-  mode="radio"
+  mode="checkbox"
   @change="change"
 >
-</p-radio-group>
+</p-checkbox-group>
 ```
 
-## Radio-group Attributes
+
+## checkbox-group Attributes
 
 | 属性 | 说明 |
 | ---- | ---- |
 | options    | 配置项，value、label   |
-| mode    | 组类型，radio、button，默认radio    |
+| mode    | 组类型，checkbox、button，默认checkbox    |

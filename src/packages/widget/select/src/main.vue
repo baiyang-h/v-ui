@@ -94,6 +94,4 @@ const wrapStyle = computed(() => {
   return style
 })
 
-
-
 </script>

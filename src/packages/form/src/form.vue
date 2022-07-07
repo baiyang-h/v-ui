@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <script setup>
-import {ref, reactive, toRaw, onBeforeMount, computed, onMounted, provide} from 'vue'
+import {ref, reactive, toRaw, onBeforeMount, computed, provide, nextTick} from 'vue'
 import _ from 'lodash'
 import { merge } from './methods'
 import newProps from './props'
@@ -159,15 +159,17 @@ function getFieldRef(name) {
 // 重置所有表单内容和状态
 function resetFields(args=[]) {
   if(formRef) {
-    // fix: 此处多此一举时因为在对自定义的组件进行重置的时候，如果fom传入的是对象的形式，多个表单，重置后检验会执行，所以对自定义的表单重新 resetField
+    // fix: 此处多此一举时因为在对自定义的组件进行重置的时候，如果fom传入的是对象的形式，多个表单，重置后检验会执行，所以对自定义的表单重新 resetField\
+    // 先执行 formRef.value.resetFields() 这个自定义校验还是会存在,所以下面再重新 nextTick 后执行一次
+    formRef.value.resetFields()
     if(args && args.length) {
-      setTimeout(() => {
+      nextTick(() => {
         args.forEach(key => {
           formItemRefs[key].resetField()
         })
       })
     } else {
-      setTimeout(() => {
+      nextTick(() => {
         Object.values(formItemRefs).forEach(value => {
           value.resetField()
         })

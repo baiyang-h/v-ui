@@ -5,6 +5,7 @@ import filterObject from './libs/function/filterObject'
 
 import Gap from './packages/gap/index'
 import Text from './packages/text/index'
+import Input from './packages/widget/input/index'
 import Select from './packages/widget/select/index'
 import RadioGroup from './packages/widget/radio-group/index'
 import CheckboxGroup from './packages/widget/checkbox-group/index'
@@ -14,6 +15,7 @@ import Form from './packages/form/index'
 const components = [
   Gap,
   Text,
+  Input,
   Select,
   RadioGroup,
   CheckboxGroup,

@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { ElMessage } from 'element-plus'
 import Custom1 from './Custom1.vue'
 import Custom2 from './Custom2.vue'
@@ -41,6 +41,7 @@ const option = {
       prop: 'input',
       label: '输入框',
       attrs: {
+        reg: /\d/,
         maxlength: 10,
         minlength: 1,
         'show-word-limit': true,
@@ -142,7 +143,9 @@ const option = {
       prop: 'date',
       label: '日期选择器',
       attrs: {
-        type: 'daterange'
+        type: 'daterange',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束',
       }
     },
     {
@@ -169,29 +172,71 @@ const option = {
             children: [{
               value: 'yizhi',
               label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }, {
-            value: 'daohang',
-            label: '导航',
-            children: [{
-              value: 'cexiangdaohang',
-              label: '侧向导航'
-            }, {
-              value: 'dingbudaohang',
-              label: '顶部导航'
             }]
           }]
         }]
       }
+    },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'RowInput',
+          prop: 'a1'
+        },
+        {
+          type: 'select',
+          label: 'RowSelect',
+          prop: 'a2',
+          attrs: {
+            options: [
+              { value: 1, label: 'One' },
+              { value: 2, label: 'Two' },
+            ]
+          }
+        }
+      ]
+    },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'RowInput',
+          prop: 'row1'
+        },
+        {
+          type: 'col',
+          label: 'RowCol',
+          prop: 'col1',
+          children: [
+            {
+              type: 'input',
+              prop: 'a'
+            },
+            {
+              type: 'input',
+              prop: 'b'
+            },
+          ]
+        },
+      ]
+    },
+    {
+      type: 'col',
+      label: 'Col',
+      prop: 'col2',
+      children: [
+        {
+          type: 'input',
+          prop: 'a'
+        },
+        {
+          type: 'input',
+          prop: 'b'
+        }
+      ]
     },
     {
       type: 'custom',
@@ -208,15 +253,29 @@ const option = {
   ],
   rules: {
     input: [
-      { required: true, message: '成功' },
+      { required: true, message: '必填' },
     ],
+    row1: [
+      { required: true, message: '必填' },
+    ],
+    'col1.a': [
+      { required: true, message: '必填' },
+    ],
+    'col2.a': [
+      { required: true, message: '必填' },
+    ],
+    // 也可以直接col进行自定义验证
+    // 'col2': [
+    //   {
+    //     validator(rule, value, callback) { callback() }
+    //   }
+    // ],
     custom1: [
       { required: true, message: '必填' },
     ],
     custom2: [
       {
         validator(rule, value, callback) {
-          console.log(222222)
           if(!value) return callback(new Error('必填'))
           if(!value.input && value.select) {
             return callback(new Error('必填2'))
