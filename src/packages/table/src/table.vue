@@ -33,7 +33,7 @@
         <slot name="empty"></slot>
       </template>
       <column
-          :columns="option.columns"
+        :columns="option.columns"
       >
         <!--   快捷 首部特殊列 对应列的类型   selection / index / expand  -->
         <template #header>
@@ -44,8 +44,8 @@
           </column-default>
         </template>
         <template
-            v-for="item in mainSlot"
-            #[item]="scope"
+          v-for="item in mainSlot"
+          #[item]="scope"
         >
           <slot v-bind="scope" :name="item" />
         </template>

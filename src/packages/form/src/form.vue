@@ -24,7 +24,11 @@
       :prop="item.prop"
       :modelValue="form"
       @update:modelValue="setFormModel"
-    />
+    >
+      <template v-for="item in mainSlot" #[item]>
+        <slot :name="item" />
+      </template>
+    </form-item-dynamic>
     <el-form-item v-if="_option.showBtn" :class="$addPrefix('form__btn', false)">
       <el-button
         type="primary"
@@ -51,19 +55,26 @@ export default {
 }
 </script>
 <script setup>
-import {ref, reactive, toRaw, onBeforeMount, computed, provide, nextTick} from 'vue'
+import {ref, reactive, toRaw, onBeforeMount, computed, provide, nextTick, useSlots} from 'vue'
 import _ from 'lodash'
 import { merge } from './methods'
 import newProps from './props'
 import FormItemDynamic from './item-dynamic.vue'
 
 const props = defineProps({
+  modelValue: {
+    type: Object,
+    default() {
+      return {}
+    }
+  },
   option: {
     type: Object,
     required: true,
   }
 })
 const emit = defineEmits([
+  'update:modelValue',
   'validate',
   'onOk',
   'onCancel'
@@ -73,15 +84,19 @@ const formRef = ref()
 const form = reactive({})
 const formItemRefs = reactive({})
 
+const slots = useSlots()
+
 // 初始化 option，为了给有些属性设置默认值
 const _option = computed(() => ({
   ...newProps,
   ...props.option,
 }))
+const mainSlot = computed(() => Object.keys(slots))
 
 provide('instance', {
   // 提供给子组件一个设置 form-item 的ref的方法
-  setFormItemRef
+  setFormItemRef,
+  mainSlot: Object.keys(slots),
 })
 
 // 事件
@@ -112,7 +127,7 @@ onBeforeMount(() => {
 
 // 初始化form数据，
 function initForm() {
-  // 默认初始化表单数据，初始都为undefined
+  // 默认初始化表单，初始都为undefined,以 columns 格式生成一个初始化得form
   const fn = (children, obj) => {
     children.forEach(child => {
       if(child.type === 'row') {
@@ -126,6 +141,13 @@ function initForm() {
     })
   }
   fn(_option.value.columns, form)
+
+  // 将组件外部设置得v-model值进行合并, 生成一个新的 form
+  Object.keys(props.modelValue).forEach(key => {
+    form[key] = props.modelValue[key]
+  })
+  // 暴露给外部form,因为是对象的原因所以外部直接改变会影响内部
+  emit('update:modelValue', form)
 }
 
 // 得到全部或多个form的属性值

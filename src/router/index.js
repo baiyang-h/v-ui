@@ -19,6 +19,10 @@ const router = createRouter({
       path: '/form2',
       component: () => import('@/views/form/form2.vue')
     },
+    {
+      path: '/form3',
+      component: () => import('@/views/form/form3.vue')
+    },
   ],
 })
 

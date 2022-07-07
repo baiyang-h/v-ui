@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 import { ElMessage } from 'element-plus'
 import Custom1 from './Custom1.vue'
 import Custom2 from './Custom2.vue'
@@ -30,8 +30,8 @@ const option = {
   columns: [
     {
       type: 'text',
-      prop: 'text',
       label: '文本',
+      prop: 'text',
       attrs: {
         color: 'red'
       }

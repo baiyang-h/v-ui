@@ -25,7 +25,14 @@
         :prop="getDepthProp(item)"
         :modelValue="modelValue"
         @update:modelValue="setFormModel"
-      />
+      >
+        <template
+            v-for="dynamicSlotName in instance.mainSlot"
+            #[dynamicSlotName]
+        >
+          <slot :name="dynamicSlotName" />
+        </template>
+      </form-item-dynamic>
     </el-col>
   </el-row>
   <el-form-item
@@ -42,15 +49,34 @@
       :prop="getDepthProp(item)"
       :modelValue="modelValue[row.prop]"
       @update:modelValue="setFormModel"
-    />
+    >
+      <template
+        v-for="dynamicSlotName in instance.mainSlot"
+        #[dynamicSlotName]
+      >
+        <slot :name="dynamicSlotName" />
+      </template>
+    </form-item-dynamic>
   </el-form-item>
+  <template
+    v-else-if="row.type==='slot'"
+  >
+    <slot :name="row.name" v-if="$slots[row.name]"/>
+  </template>
   <form-item-default
     v-else
     :row="row"
     :prop="prop"
     :modelValue="modelValue[row.prop]"
     @update:modelValue="setFormModel"
-  />
+  >
+    <template
+      v-for="dynamicSlotName in instance.mainSlot"
+      #[dynamicSlotName]
+    >
+      <slot :name="dynamicSlotName" />
+    </template>
+  </form-item-default>
 </template>
 
 <script>
