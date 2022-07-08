@@ -20,12 +20,17 @@
       </template>
       <template #bbb>
         <el-form-item>
-          <el-form-item label="插槽2-1" prop="slot21">
-            <el-input v-model="form.slot21" />
+          <el-form-item label="插槽2-1" prop="slot2">
+            <el-input v-model="form.slot2" />
           </el-form-item>
-          <el-form-item label="插槽2-2" prop="slot22">
-            <el-input v-model="form.slot22" />
+          <el-form-item label="插槽2-2" prop="slot3">
+            <el-input v-model="form.slot3" />
           </el-form-item>
+        </el-form-item>
+      </template>
+      <template #ccc>
+        <el-form-item label="嵌套插槽" prop="col1.slot4">
+          <el-input v-model="form.col1.slot4" />
         </el-form-item>
       </template>
     </p-form>
@@ -39,8 +44,11 @@ import { ElMessage } from 'element-plus'
 const formRef = ref(null)
 const form = ref({
   slot1: '我是插槽1',
-  slot21: '',
-  slot22: '',
+  slot2: '',
+  slot3: '',
+  col1: {
+    slot4: '我是嵌套插槽4',
+  }
 })
 
 const option = {
@@ -67,16 +75,22 @@ const option = {
         {
           type: 'input',
           label: 'RowInput',
-          prop: 'row1'
+          prop: 'row1',
+          span: 6
         },
         {
           type: 'col',
           label: 'RowCol',
           prop: 'col1',
+          span: 18,
           children: [
             {
               type: 'input',
               prop: 'a'
+            },
+            {
+              type: 'slot',
+              name: 'ccc'
             },
             {
               type: 'input',
@@ -92,6 +106,9 @@ const option = {
       { required: true, message: '必填' },
     ],
     'col1.a': [
+      { required: true, message: '必填' },
+    ],
+    'col1.slot4': [
       { required: true, message: '必填' },
     ],
     slot1: [
@@ -119,18 +136,22 @@ const resetFields = () => {
   formRef.value.resetFields()
 }
 const setFieldsValue = () => {
-  // 这里因为外部直接赋值的原因,导致内部不知道form 直接被改变了,所以 input 无效
-  // 而直接使用 form.input 这种方式去修改却可以,是因为引用传值的原因
-  // form.value = {
-  //   ...form.value,
-  //   input: '111',
-  //   slot1: '222',
-  //   slot21: '333',
-  //   slot22: '444',
-  // }
+  formRef.value.setFieldsValue((state) => ({
+    ...state,
+    input: '111',
+    slot1: '222',
+    slot2: '333',
+    slot3: '444',
+    row1: '555',
+    col1: {
+      a: '11',
+      slot4: '22',
+      b: '33',
+    }
+  }))
 }
 
 const getFieldsValue = () => {
-
+  console.log(formRef.value.getFieldsValue())
 }
 </script>

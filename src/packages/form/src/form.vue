@@ -130,9 +130,11 @@ function initForm() {
   // 默认初始化表单，初始都为undefined,以 columns 格式生成一个初始化得form
   const fn = (children, obj) => {
     children.forEach(child => {
-      if(child.type === 'row') {
+      // 如果类型是 插槽的话
+      if(child.type === 'slot') return
+      if(child.type === 'row') {  // 类型是 row
         fn(child.children, obj)
-      } else if(child.type === 'col') {
+      } else if(child.type === 'col') {  // 类型是 col
         obj[child.prop] = {}
         fn(child.children, obj[child.prop])
       } else {
@@ -143,9 +145,7 @@ function initForm() {
   fn(_option.value.columns, form)
 
   // 将组件外部设置得v-model值进行合并, 生成一个新的 form
-  Object.keys(props.modelValue).forEach(key => {
-    form[key] = props.modelValue[key]
-  })
+  merge(form, props.modelValue)
   // 暴露给外部form,因为是对象的原因所以外部直接改变会影响内部
   emit('update:modelValue', form)
 }
@@ -169,8 +169,12 @@ function getFieldValue(depProp) {
   }
 }
 // 设置form属性值
-function setFieldsValue(values) {
-  merge(form, values)
+function setFieldsValue(fnOrValues) {
+  if(typeof fnOrValues === 'function') { // 如果是函数的形式, 函数的参数值是form
+    merge(form, fnOrValues(form))
+  } else {  // 直接传入一个对象
+    merge(form, fnOrValues)
+  }
 }
 // 得到单个formItem的ref
 function getFieldRef(name) {

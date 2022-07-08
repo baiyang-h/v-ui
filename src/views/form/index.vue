@@ -3,7 +3,8 @@
     <el-row style="margin-bottom: 20px">
       <el-button type="primary" @click="onOk">提交</el-button>
       <el-button type="primary" @click="resetFields">重置</el-button>
-      <el-button type="primary" @click="setFieldsValue">设置值</el-button>
+      <el-button type="primary" @click="setFieldsValue">设置值(传入对象)</el-button>
+      <el-button type="primary" @click="setFieldsValue2">设置值(传入函数)</el-button>
       <el-button type="primary" @click="getFieldsValue">获取值</el-button>
     </el-row>
     <p-form
@@ -326,13 +327,39 @@ const setFieldsValue = () => {
     date: ['Mon Jul 11 2022 00:00:00 GMT+0800 (中国标准时间)', 'Wed Aug 24 2022 00:00:00 GMT+0800 (中国标准时间)'],
     selectTime: '11:30',
     colorPicker: '#D90F0F',
-    cascader: ['zhinan','daohang','dingbudaohang'],
+    cascader: ['zhinan','shejiyuanze', 'yizhi'],
+    a1: 'a1',
+    a2: 1,
+    row1: 'row1',
+    col1: {
+      a: 'a',
+      b: 'b'
+    },
+    col2: {
+      a: 'a',
+      b: 'b'
+    },
     custom1: '我是自定义1',
     custom2: {
       input: '我是自定义2',
       select: 'beijing'
     }
   })
+}
+const setFieldsValue2 = () => {
+  if(!formRef.value) return
+  // 也可以使用函数的形式
+  formRef.value.setFieldsValue((state) => ({
+    ...state,
+    text: '使用函数的形式改变',
+    input: '使用函数的形式改变',
+    inputNumber: 7,
+    select: 'Beijing',
+    radioGroup: 'Shanghai',
+    checkbox: false,
+    checkboxGroup: ['HangZhou'],
+    switch: false,
+  }))
 }
 
 const getFieldsValue = () => {
