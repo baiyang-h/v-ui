@@ -17,17 +17,21 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {markRaw, reactive, ref} from "vue";
 import { ElMessage } from 'element-plus'
 import Custom1 from './Custom1.vue'
 import Custom2 from './Custom2.vue'
 
 const formRef = ref(null)
 
-const option = {
+const _option = {
   showBtn: true,
   okText: '提交',
   cancelText: '取消',
+  initialValues: {
+    text: '我是初始化1',
+    input: '我是初始化2'
+  },
   columns: [
     {
       type: 'text',
@@ -54,6 +58,7 @@ const option = {
       type: 'inputNumber',
       prop: 'inputNumber',
       label: '数字输入框',
+      defaultValue: 0,
       rules: [
         { required: true, message: '请输入数字' },
       ]
@@ -243,13 +248,13 @@ const option = {
       type: 'custom',
       prop: 'custom1',
       label: '自定义1',
-      component: Custom1
+      component: markRaw(Custom1)
     },
     {
       type: 'custom',
       prop: 'custom2',
       label: '自定义2',
-      component: Custom2
+      component: markRaw(Custom2)
     }
   ],
   rules: {
@@ -275,6 +280,7 @@ const option = {
       { required: true, message: '必填' },
     ],
     custom2: [
+      { required: true, message: '必填' },
       {
         validator(rule, value, callback) {
           if(!value) return callback(new Error('必填'))
@@ -291,6 +297,8 @@ const option = {
     ]
   }
 }
+
+const option = reactive(_option)
 
 const onOk = (values) => {
   if(!formRef.value) return
@@ -332,8 +340,8 @@ const setFieldsValue = () => {
     a2: 1,
     row1: 'row1',
     col1: {
-      a: 'a',
-      b: 'b'
+      a: 'aa',
+      b: 'bb'
     },
     col2: {
       a: 'a',

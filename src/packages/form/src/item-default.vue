@@ -45,7 +45,7 @@ defineEmits(['update:modelValue'])
 const instance = inject('instance')
 
 // 过滤不必要的属性
-const filterFormItemProps = computed(() => filterObject(props.row, ['attrs', 'span', 'offset', 'push', 'pull', 'xs', 'sm', 'md', 'lg', 'xl', 'tag']))
+const filterFormItemProps = computed(() => filterObject(props.row, ['type', 'attrs', 'defaultValue', 'span', 'offset', 'push', 'pull', 'xs', 'sm', 'md', 'lg', 'xl', 'tag']))
 const wrapPlaceholder = computed(() => {
   if(props.row.attrs && props.row.attrs.placeholder) return props.row.attrs.placeholder
   return placeholderSelectTypeArr.includes(props.row.type) ? '请选择' : '请输入'

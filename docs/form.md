@@ -9,43 +9,43 @@
 import { reactive } from 'vue'
 
 const option = reactive({
+  showBtn: true,
+  okText: '提交',
+  cancelText: '取消',
   columns: [
     {
-      type: 'input',
-      label: '输入框',
-      prop: 'input',
+      type: 'text',
+      label: '文本',
+      prop: 'text',
       attrs: {
-        // reg: /^\d*$/g,
+        color: 'red'
+      }
+    },
+    {
+      type: 'input',
+      prop: 'input',
+      label: '输入框',
+      attrs: {
+        reg: /\d/,
         maxlength: 10,
         minlength: 1,
         'show-word-limit': true,
-        'showWordLimit': true,
         placeholder: '请输入内容',
         clearable: true,
-        // 'show-password': true,
-        // disabled: true,
-        // size: 'mini',
-        // autofocus: true,
-        label: 'aaaa',
-      },
-      listeners: {
-        blur(e) {
-          console.log(this, e.target)
-        },
-        clear: () => {
-          console.log('clear', this)
-        }
       }
     },
     {
       type: 'inputNumber',
-      label: '数字框',
       prop: 'inputNumber',
+      label: '数字输入框',
+      rules: [
+        { required: true, message: '请输入数字' },
+      ]
     },
     {
       type: 'select',
-      label: '选择框',
       prop: 'select',
+      label: '选择框',
       attrs: {
         options: [
           {
@@ -59,9 +59,9 @@ const option = reactive({
       }
     },
     {
-      type: 'radio',
+      type: 'radioGroup',
+      prop: 'radioGroup',
       label: '单选',
-      prop: 'radio',
       attrs: {
         options: [
           {
@@ -71,7 +71,7 @@ const option = reactive({
             value: 'Beijing',
             label: '北京'
           }, {
-            value: 'hanghzou',
+            value: 'hangzhou',
             label: '杭州',
             disabled: true
           },
@@ -80,13 +80,13 @@ const option = reactive({
     },
     {
       type: 'checkbox',
-      label: '复选框',
       prop: 'checkbox',
+      label: '复选框',
     },
     {
       type: 'checkboxGroup',
-      label: '复选框组',
       prop: 'checkboxGroup',
+      label: '复选框组',
       attrs: {
         options: [
           {
@@ -104,27 +104,49 @@ const option = reactive({
       }
     },
     {
+      type: 'rate',
+      prop: 'rate',
+      label: '评分',
+    },
+    {
+      type: 'slider',
+      prop: 'slider',
+      label: '滑块',
+    },
+    {
       type: 'switch',
-      label: 'Switch',
-      prop: 'switch'
+      prop: 'switch',
+      label: '开关',
     },
     {
       type: 'time',
+      prop: 'time',
       label: '时间选择器',
-      prop: 'time'
     },
     {
       type: 'date',
-      label: '日期选择器',
       prop: 'date',
+      label: '日期选择器',
       attrs: {
-        type: 'daterange'
+        type: 'daterange',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束',
       }
     },
     {
+      type: 'selectTime',
+      prop: 'selectTime',
+      label: '时间选择',
+    },
+    {
+      type: 'colorPicker',
+      prop: 'colorPicker',
+      label: '颜色选择器',
+    },
+    {
       type: 'cascader',
-      label: '级联选择器',
       prop: 'cascader',
+      label: '级联选择器',
       attrs: {
         options: [{
           value: 'zhinan',
@@ -135,43 +157,123 @@ const option = reactive({
             children: [{
               value: 'yizhi',
               label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }, {
-            value: 'daohang',
-            label: '导航',
-            children: [{
-              value: 'cexiangdaohang',
-              label: '侧向导航'
-            }, {
-              value: 'dingbudaohang',
-              label: '顶部导航'
             }]
           }]
         }]
       }
     },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'RowInput',
+          prop: 'a1'
+        },
+        {
+          type: 'select',
+          label: 'RowSelect',
+          prop: 'a2',
+          attrs: {
+            options: [
+              { value: 1, label: 'One' },
+              { value: 2, label: 'Two' },
+            ]
+          }
+        }
+      ]
+    },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'RowInput',
+          prop: 'row1'
+        },
+        {
+          type: 'col',
+          label: 'RowCol',
+          prop: 'col1',
+          children: [
+            {
+              type: 'input',
+              prop: 'a'
+            },
+            {
+              type: 'input',
+              prop: 'b'
+            },
+          ]
+        },
+      ]
+    },
+    {
+      type: 'col',
+      label: 'Col',
+      prop: 'col2',
+      children: [
+        {
+          type: 'input',
+          prop: 'a'
+        },
+        {
+          type: 'input',
+          prop: 'b'
+        }
+      ]
+    },
+    {
+      type: 'custom',
+      prop: 'custom1',
+      label: '自定义1',
+      component: markRaw(Custom1)
+    },
+    {
+      type: 'custom',
+      prop: 'custom2',
+      label: '自定义2',
+      component: markRaw(Custom2)
+    }
   ],
   rules: {
-    text: [
-      { required: true, message: '请输入活动名称' },
-      { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
-    ],
-    text2: [
-        
-      { required: true, message: '必填', trigger: 'blur' },
-    ],
-    aaa: [
+    input: [
       { required: true, message: '必填' },
     ],
+    row1: [
+      { required: true, message: '必填' },
+    ],
+    'col1.a': [
+      { required: true, message: '必填' },
+    ],
+    'col2.a': [
+      { required: true, message: '必填' },
+    ],
+    // 也可以直接col进行自定义验证
+    // 'col2': [
+    //   {
+    //     validator(rule, value, callback) { callback() }
+    //   }
+    // ],
+    custom1: [
+      { required: true, message: '必填' },
+    ],
+    custom2: [
+      { required: true, message: '必填' },
+      {
+        validator(rule, value, callback) {
+          if(!value) return callback(new Error('必填'))
+          if(!value.input && value.select) {
+            return callback(new Error('必填2'))
+          }
+          if( value.select === 'beijing') {
+            return callback()
+          }
+          callback(new Error('请选择北京'))
+        },
+        // trigger: 'blur'
+      }
+    ]
   }
 })
 </script>
@@ -393,6 +495,139 @@ const option3 = {
 }
 ```
 
+## 插槽
+
+对于有些表复杂的表单形式，我们需要自定义表单，此时我们可以选择插槽的方式，主要有三点:
+
+1. 在 options 中设置`{ type: 'slot', name: '插槽名' }`
+2. 在 `template` 中写上相应的自定义插槽
+3. 在表单组件上绑定 `v-model=form` 在 `form` 中写上表单绑定的参数
+
+```vue
+<template>
+  <p-form
+    v-model="form"
+    :option="option"
+  >
+    <template #aaa>
+      <el-form-item label="插槽" prop="slot1">
+        <el-input v-model="form.slot1" />
+      </el-form-item>
+    </template>
+    <template #bbb>
+      <el-form-item>
+        <el-form-item label="插槽2-1" prop="slot2">
+          <el-input v-model="form.slot2" />
+        </el-form-item>
+        <el-form-item label="插槽2-2" prop="slot3">
+          <el-input v-model="form.slot3" />
+        </el-form-item>
+      </el-form-item>
+    </template>
+    <template #ccc>
+      <el-form-item label="嵌套插槽" prop="col1.slot4">
+        <el-input v-model="form.col1.slot4" />
+      </el-form-item>
+    </template>
+  </p-form>
+</template>
+
+<script setup>
+import {ref} from "vue";
+
+const formRef = ref(null)
+// 3. 绑定相应表单的属性， 对应上面设置的插槽部分
+const form = ref({
+  slot1: '我是插槽1',
+  slot2: '',
+  slot3: '',
+  col1: {
+    slot4: '我是嵌套插槽4',
+  }
+})
+
+const option = {
+  columns: [
+    // 1. option 中设置插槽
+    {
+      type: 'slot',
+      name: 'aaa',
+    },
+    {
+      type: 'input',
+      prop: 'input',
+      label: '输入框',
+    },
+    {
+      type: 'slot',
+      name: 'bbb'
+    },
+    {
+      type: 'row',
+      children: [
+        {
+          type: 'input',
+          label: 'RowInput',
+          prop: 'row1',
+          span: 6
+        },
+        {
+          type: 'col',
+          label: 'RowCol',
+          prop: 'col1',
+          span: 18,
+          children: [
+            {
+              type: 'input',
+              prop: 'a'
+            },
+            {
+              type: 'slot',
+              name: 'ccc'
+            },
+            {
+              type: 'input',
+              prop: 'b'
+            },
+          ]
+        },
+      ]
+    },
+  ],
+  rules: {
+    input: [
+      { required: true, message: '必填' },
+    ],
+    'col1.a': [
+      { required: true, message: '必填' },
+    ],
+    'col1.slot4': [
+      { required: true, message: '必填' },
+    ],
+    slot1: [
+      { required: true, message: '必填' },
+    ]
+  }
+}
+
+const setFieldsValue = () => {
+  formRef.value.setFieldsValue((state) => ({
+    ...state,
+    input: '111',
+    slot1: '222',
+    slot2: '333',
+    slot3: '444',
+    row1: '555',
+    col1: {
+      a: '11',
+      slot4: '22',
+      b: '33',
+    }
+  }))
+}
+</script>
+```
+
 ## 默认按钮
 
 除了在外部自定义按钮，如果想要显示配置好的按钮，存在两种方式。 
@@ -439,12 +674,12 @@ const option = {
 </template>
 ```
 
-### Form 插槽
+## Form 插槽
 | 插槽名 | 说明 |
 | ---- | ---- |
 | button    | 如果想要自定义按钮 |
 
-### Option
+## Option
 
 | 属性 | 说明 |
 | ---- | ---- |
@@ -454,9 +689,10 @@ const option = {
 | showCancelBtn    | 是否显示取消按钮 |
 | okText    | 当显示表单按钮时（确认） |
 | cancelText    | 当显示表单按钮时（取消） |
+| initialValues  | 表单默认值，只有初始化以及重置时生效 |
 
 
-### Columns
+## Columns
 
 | 属性 | 说明 |
 | ---- | ---- |
@@ -464,6 +700,8 @@ const option = {
 | label    |  标签文本  |
 | prop    |  model 的键名  |
 | attrs    |  表单控件的属性  |
+| defaultValue    |  表单默认值  |
+| children    |  只有 type 为 row 或 col 的时候才有  |
 
 ### Form 事件
 

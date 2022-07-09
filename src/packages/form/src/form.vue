@@ -118,7 +118,7 @@ defineExpose({
   // 获取对应字段名的值
   getFieldValue,
   // 获取对应字段名的ref
-  getFieldRef
+  getFieldRef,
 })
 
 onBeforeMount(() => {
@@ -138,12 +138,16 @@ function initForm() {
         obj[child.prop] = {}
         fn(child.children, obj[child.prop])
       } else {
-        obj[child.prop] = undefined
+        // 如果有默认值
+        obj[child.prop] = child.defaultValue === undefined ? undefined : child.defaultValue
       }
     })
   }
   fn(_option.value.columns, form)
-
+  // 表单默认值，只有初始化以及重置时生效,如果有设置的话
+  if(_option.value.initialValues) {
+    merge(form, _option.value.initialValues)
+  }
   // 将组件外部设置得v-model值进行合并, 生成一个新的 form
   merge(form, props.modelValue)
   // 暴露给外部form,因为是对象的原因所以外部直接改变会影响内部

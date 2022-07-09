@@ -37,7 +37,7 @@
   </el-row>
   <el-form-item
     v-else-if="row.type === 'col'"
-    v-bind="$filterObject(row, ['type', 'label', 'prop', 'children'])"
+    v-bind="$filterObject(row, ['type', 'label', 'prop', 'children', 'attrs', 'defaultValue'])"
     :prop="prop"
     :label="row.label"
     :ref="(el) => instance.setFormItemRef(el, prop)"

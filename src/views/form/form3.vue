@@ -38,11 +38,11 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import { ElMessage } from 'element-plus'
 
 const formRef = ref(null)
-const form = ref({
+const form = reactive({
   slot1: '我是插槽1',
   slot2: '',
   slot3: '',
