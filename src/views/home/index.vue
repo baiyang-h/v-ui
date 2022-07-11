@@ -1,11 +1,36 @@
 <template>
   <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      :rules="rules"
+    ref="ruleFormRef"
+    :model="ruleForm"
+    :rules="rules"
   >
-    <el-form-item label="Activity name" prop="num">
-      <el-input-number v-model="ruleForm.num" />
+    <el-form-item label="Activity name" >
+      <el-input />
+    </el-form-item>
+    <el-form-item label="Activity name" >
+      <el-form-item >
+        <el-input />
+      </el-form-item>
+      <el-form-item >
+        <el-select />
+      </el-form-item>
+    </el-form-item>
+    <el-form-item>
+      <el-form-item  label="Activity name">
+        <el-input />
+      </el-form-item>
+      <el-form-item  label="Activity name">
+        <el-select />
+      </el-form-item>
+      <el-form-item  label="Activity name">
+        <el-input />
+      </el-form-item>
+      <el-form-item  label="Activity name">
+        <el-input />
+      </el-form-item>
+      <el-form-item  label="Activity name">
+        <el-input />
+      </el-form-item>
     </el-form-item>
     <el-form-item>
       <el-button @click="setFieldsValue">set</el-button>

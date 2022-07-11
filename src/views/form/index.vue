@@ -46,12 +46,17 @@ const _option = {
       prop: 'input',
       label: '输入框',
       attrs: {
-        reg: /\d/,
+        // reg: /\d/,
         maxlength: 10,
         minlength: 1,
         'show-word-limit': true,
         placeholder: '请输入内容',
         clearable: true,
+      },
+      listeners: {
+        blur(e) {
+          console.log(e)
+        }
       }
     },
     {

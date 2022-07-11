@@ -37,7 +37,7 @@
   </el-row>
   <el-form-item
     v-else-if="row.type === 'col'"
-    v-bind="$filterObject(row, ['type', 'label', 'prop', 'children', 'attrs', 'defaultValue'])"
+    v-bind="$filterObject(row, newColumnProps)"
     :prop="prop"
     :label="row.label"
     :ref="(el) => instance.setFormItemRef(el, prop)"
@@ -87,6 +87,7 @@ export default {
 <script setup>
 import { computed, inject } from 'vue'
 import FormItemDefault from './item-default.vue'
+import { newColumnProps } from './props'
 
 const props = defineProps({
   modelValue: {

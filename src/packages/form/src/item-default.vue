@@ -10,6 +10,7 @@
       v-bind="row.attrs"
       :placeholder="wrapPlaceholder"
       :modelValue="modelValue"
+      v-on="row.listeners || {}"
       @update:modelValue="$emit('update:modelValue', $event, prop)"
     />
   </el-form-item>
@@ -24,6 +25,7 @@ export default {
 import {computed, inject} from "vue";
 import filterObject from '@/libs/function/filterObject'
 import typeMap, {placeholderSelectTypeArr} from "./type";
+import { newColumnProps } from './props'
 
 const props = defineProps({
   modelValue: {
@@ -45,7 +47,7 @@ defineEmits(['update:modelValue'])
 const instance = inject('instance')
 
 // 过滤不必要的属性
-const filterFormItemProps = computed(() => filterObject(props.row, ['type', 'attrs', 'defaultValue', 'span', 'offset', 'push', 'pull', 'xs', 'sm', 'md', 'lg', 'xl', 'tag']))
+const filterFormItemProps = computed(() => filterObject(props.row, newColumnProps))
 const wrapPlaceholder = computed(() => {
   if(props.row.attrs && props.row.attrs.placeholder) return props.row.attrs.placeholder
   return placeholderSelectTypeArr.includes(props.row.type) ? '请选择' : '请输入'

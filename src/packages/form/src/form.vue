@@ -58,7 +58,7 @@ export default {
 import {ref, reactive, toRaw, onBeforeMount, computed, provide, nextTick, useSlots} from 'vue'
 import _ from 'lodash'
 import { merge } from './methods'
-import newProps from './props'
+import { newOptionProps } from './props'
 import FormItemDynamic from './item-dynamic.vue'
 
 const props = defineProps({
@@ -88,9 +88,9 @@ const slots = useSlots()
 
 // 初始化 option，为了给有些属性设置默认值
 const _option = computed(() => {
-  // initOption(props.option.columns)
+  initOption(props.option)
   return {
-    ...newProps,
+    ...newOptionProps,
     ...props.option,
   }
 })
@@ -122,8 +122,6 @@ defineExpose({
   getFieldValue,
   // 获取对应字段名的ref
   getFieldRef,
-  // 暴露一个方法用于来修改 option.columns 中的配置项
-  setColumnValue
 })
 
 onBeforeMount(() => {
@@ -158,7 +156,7 @@ function initForm() {
   // 暴露给外部form,因为是对象的原因所以外部直接改变会影响内部
   emit('update:modelValue', form)
 }
-// 格式化option
+// 格式化option， 新增 key 字段，表示全prop路径， 如 a.b.c
 function initOption(option) {
   const fn = (children, depProp) => {
     children.forEach(child => {
@@ -167,12 +165,16 @@ function initOption(option) {
         fn(child.children, depProp)
       } else if(child.type === 'col') { // 类型是 col
         if(depProp) {
-          child.prop = `${depProp}.${child.prop}`
+          child.key = `${depProp}.${child.prop}`
+        } else {
+          child.key = child.prop
         }
         fn(child.children, child.prop)
       } else {
         if(depProp) {
-          child.prop = `${depProp}.${child.prop}`
+          child.key = `${depProp}.${child.prop}`
+        } else {
+          child.key = child.prop
         }
       }
     })
@@ -237,10 +239,6 @@ function resetFields(args=[]) {
 // 初始将 form-item 的每个 ref 保存到 formItemRefs
 function setFormItemRef(ref, depProp) {
   formItemRefs[depProp] = ref
-}
-// 暴露一个方法用于来修改 option.columns 中的配置项
-function setColumnValue(columns, depProp, values) {
-
 }
 
 // 按钮部分 确认/取消

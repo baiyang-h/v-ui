@@ -32,6 +32,11 @@ const option = reactive({
         'show-word-limit': true,
         placeholder: '请输入内容',
         clearable: true,
+      },
+      listeners: {
+        blur(e) {
+          console.log(e)
+        }
       }
     },
     {
@@ -278,6 +283,39 @@ const option = reactive({
 })
 </script>
 
+```
+
+## 表单控件事件
+
+如果相对单个的表单增加组件事件，可以在配置中增加 `listeners` 事件配置项
+
+```vue
+<script setup>
+const option = {
+  columns: [
+    {
+      type: 'input',
+      prop: 'input',
+      label: '输入框',
+      listeners: {
+        blur(e) {
+          console.log(e)
+        }
+      }
+    },
+    {
+      type: 'custom',
+      prop: 'custom',
+      label: '自定义',
+      listeners: {
+        // 可以自定义事件，但是在表单组件内部必须注册该事件才会有效
+        aaa(v) {},
+        bbb(v) {},
+      }
+    }
+  ]
+}
+</script>
 ```
 
 ## 布局
@@ -702,6 +740,7 @@ const option = {
 | attrs    |  表单控件的属性  |
 | defaultValue    |  表单默认值  |
 | children    |  只有 type 为 row 或 col 的时候才有  |
+| listeners    |  表单控件的事件可以设置在 listeners 对象中  |
 
 ### Form 事件
 
