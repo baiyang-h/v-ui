@@ -5,7 +5,9 @@
     :label="row.label"
     :prop="prop"
   >
+    <div v-if="row.type === 'html'" v-html="row.html"></div>
     <component
+      v-else
       :is="getComNameOrModule(row)"
       v-bind="row.attrs"
       :placeholder="wrapPlaceholder"
