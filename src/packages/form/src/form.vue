@@ -137,9 +137,13 @@ function initForm() {
       if(child.type === 'slot') return
       if(child.type === 'row') {  // 类型是 row
         fn(child.children, obj)
-      } else if(child.type === 'col') {  // 类型是 col
-        obj[child.prop] = {}
-        fn(child.children, obj[child.prop])
+      } else if(child.type === 'grid') {  // 类型是 grid
+        // obj[child.prop] = {}
+        // fn(child.children, obj[child.prop])
+        if(child.prop) {
+          obj[child.prop] = {}
+        }
+        fn(child.children, child.prop ? obj[child.prop] : obj)
       } else {
         // 如果有默认值
         obj[child.prop] = child.defaultValue === undefined ? undefined : child.defaultValue
@@ -163,7 +167,7 @@ function initOption(option) {
       if(child.type === 'slot') return
       if(child.type === 'row') {  // 类型是 row
         fn(child.children, depProp)
-      } else if(child.type === 'col') { // 类型是 col
+      } else if(child.type === 'grid') { // 类型是 grid
         if(depProp) {
           child.key = `${depProp}.${child.prop}`
         } else {

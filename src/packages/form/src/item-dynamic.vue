@@ -36,18 +36,18 @@
     </el-col>
   </el-row>
   <el-form-item
-    v-else-if="row.type === 'col'"
+    v-else-if="row.type === 'grid'"
     v-bind="$filterObject(row, newColumnProps)"
     :prop="prop"
     :label="row.label"
-    :ref="(el) => instance.setFormItemRef(el, prop)"
+    :ref="(el) => prop ? instance.setFormItemRef(el, prop) : null"
   >
     <form-item-dynamic
       v-for="(item, index) in row.children"
       :key="item.prop || item.label || index"
       :row="item"
       :prop="getDepthProp(item)"
-      :modelValue="modelValue[row.prop]"
+      :modelValue="row.prop ? modelValue[row.prop] : modelValue"
       @update:modelValue="setFormModel"
     >
       <template
@@ -99,9 +99,9 @@ const props = defineProps({
       return {}
     },
     validator(value) {
-      if(value.type === 'row' || value.type === 'col') {
+      if(value.type === 'row' || value.type === 'grid') {
         if(!value.children) {
-          throw new Error('注意: 类型为 row 或 col 必须包含 children 属性')
+          throw new Error('注意: 类型为 row 或 grid 必须包含 children 属性')
         }
       }
       return true

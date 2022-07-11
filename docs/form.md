@@ -197,9 +197,9 @@ const option = reactive({
           prop: 'row1'
         },
         {
-          type: 'col',
-          label: 'RowCol',
-          prop: 'col1',
+          type: 'grid',
+          label: 'RowGrid',
+          prop: 'grid1',
           children: [
             {
               type: 'input',
@@ -214,9 +214,9 @@ const option = reactive({
       ]
     },
     {
-      type: 'col',
-      label: 'Col',
-      prop: 'col2',
+      type: 'grid',
+      label: 'Grid',
+      prop: 'grid2',
       children: [
         {
           type: 'input',
@@ -248,14 +248,14 @@ const option = reactive({
     row1: [
       { required: true, message: '必填' },
     ],
-    'col1.a': [
+    'grid1.a': [
       { required: true, message: '必填' },
     ],
-    'col2.a': [
+    'grid2.a': [
       { required: true, message: '必填' },
     ],
     // 也可以直接col进行自定义验证
-    // 'col2': [
+    // 'grid2': [
     //   {
     //     validator(rule, value, callback) { callback() }
     //   }
@@ -362,6 +362,7 @@ const option1 = {
 
 ### 布局二
 
+#### grid上存在prop
 ```vue
 <template>
   <el-form>
@@ -382,7 +383,7 @@ const option2 = {
   showBtn: true,
   columns: [
     {
-      type: 'col',
+      type: 'grid',
       prop: 'a',
       children: [
         {
@@ -398,8 +399,8 @@ const option2 = {
       ]
     },
     {
-      type: 'col',
-      label: 'Col',
+      type: 'grid',
+      label: 'Grid',
       prop: 'b',
       children: [
         {
@@ -433,6 +434,52 @@ const option2 = {
       { required: true, message: '必填' },
     ],
     'a.a2':  [
+      { required: true, message: '必填' },
+    ],
+  }
+}
+```
+#### grid上不存在prop
+也可以选择 `grid` 对象上不增加 `prop`，那么就直接进行子集取值，跳过该对象
+```vue
+<template>
+  <el-form>
+    <el-form-item>
+      <el-form-item prop="a1" label="Input">
+        <el-input />
+      </el-form-item>
+      <el-form-item prop="a2" label="Input">
+        <el-input />
+      </el-form-item>
+    </el-form-item>
+  </el-form>
+</template>
+```
+对应如下代码
+```js
+const option1 = {
+  columns: [
+    {
+      type: 'grid',
+      children: [
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a1'
+        },
+        {
+          type: 'input',
+          label: 'Input',
+          prop: 'a2'
+        },
+      ]
+    },
+  ],
+  rules: {
+    a1:  [
+      { required: true, message: '必填' },
+    ],
+    a2:  [
       { required: true, message: '必填' },
     ],
   }
@@ -563,8 +610,8 @@ const option3 = {
       </el-form-item>
     </template>
     <template #ccc>
-      <el-form-item label="嵌套插槽" prop="col1.slot4">
-        <el-input v-model="form.col1.slot4" />
+      <el-form-item label="嵌套插槽" prop="grid1.slot4">
+        <el-input v-model="form.grid1.slot4" />
       </el-form-item>
     </template>
   </p-form>
@@ -579,7 +626,7 @@ const form = ref({
   slot1: '我是插槽1',
   slot2: '',
   slot3: '',
-  col1: {
+  grid1: {
     slot4: '我是嵌套插槽4',
   }
 })
@@ -610,9 +657,9 @@ const option = {
           span: 6
         },
         {
-          type: 'col',
-          label: 'RowCol',
-          prop: 'col1',
+          type: 'grid',
+          label: 'RowGrid',
+          prop: 'grid1',
           span: 18,
           children: [
             {
@@ -636,10 +683,10 @@ const option = {
     input: [
       { required: true, message: '必填' },
     ],
-    'col1.a': [
+    'grid1.a': [
       { required: true, message: '必填' },
     ],
-    'col1.slot4': [
+    'grid1.slot4': [
       { required: true, message: '必填' },
     ],
     slot1: [
@@ -656,7 +703,7 @@ const setFieldsValue = () => {
     slot2: '333',
     slot3: '444',
     row1: '555',
-    col1: {
+    grid1: {
       a: '11',
       slot4: '22',
       b: '33',
@@ -729,7 +776,6 @@ const option = {
 | cancelText    | 当显示表单按钮时（取消） |
 | initialValues  | 表单默认值，只有初始化以及重置时生效 |
 
-
 ## Columns
 
 | 属性 | 说明 |
@@ -739,7 +785,7 @@ const option = {
 | prop    |  model 的键名  |
 | attrs    |  表单控件的属性  |
 | defaultValue    |  表单默认值  |
-| children    |  只有 type 为 row 或 col 的时候才有  |
+| children    |  只有 type 为 row 或 grid 的时候才有  |
 | listeners    |  表单控件的事件可以设置在 listeners 对象中  |
 
 ### Form 事件
@@ -756,7 +802,7 @@ const option = {
 | ---- | ---- |
 | validate    | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise
 | validateField    | 验证具体的某个字段
-| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果。方法中可传入一个数组，数组中可以是需要重置的prop，对于类型是col的需要嵌套的prop，如 a.b.c
+| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果。方法中可传入一个数组，数组中可以是需要重置的prop，对于类型是grid的需要嵌套的prop，如 a.b.c
 | scrollToField    | 滚动到指定的字段
 | clearValidate    | 清理某个字段的表单验证信息
 | setFieldsValue    | 设置表单的值
@@ -768,7 +814,7 @@ const option = {
 | 属性 | 说明 |
 | ---- | ---- |
 | row    | 栅格的形式，列在 children 中定义 |
-| col    |  嵌套表单 form.a.b，嵌套的表单在 children 中定义  |
+| grid    |  嵌套表单 form.a.b，嵌套的表单在 children 中定义  |
 | text    |  文本  |
 | input    |  输入框  |
 | inputNumber    |  数字输入框  |

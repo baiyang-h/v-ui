@@ -218,9 +218,9 @@ const _option = {
           prop: 'row1'
         },
         {
-          type: 'col',
-          label: 'RowCol',
-          prop: 'col1',
+          type: 'grid',
+          label: 'RowGrid',
+          prop: 'grid1',
           children: [
             {
               type: 'input',
@@ -235,9 +235,9 @@ const _option = {
       ]
     },
     {
-      type: 'col',
-      label: 'Col',
-      prop: 'col2',
+      type: 'grid',
+      label: 'Grid',
+      prop: 'grid2',
       children: [
         {
           type: 'input',
@@ -269,14 +269,14 @@ const _option = {
     row1: [
       { required: true, message: '必填' },
     ],
-    'col1.a': [
+    'grid1.a': [
       { required: true, message: '必填' },
     ],
-    'col2.a': [
+    'grid2.a': [
       { required: true, message: '必填' },
     ],
     // 也可以直接col进行自定义验证
-    // 'col2': [
+    // 'grid2': [
     //   {
     //     validator(rule, value, callback) { callback() }
     //   }
@@ -344,11 +344,11 @@ const setFieldsValue = () => {
     a1: 'a1',
     a2: 1,
     row1: 'row1',
-    col1: {
+    grid1: {
       a: 'aa',
       b: 'bb'
     },
-    col2: {
+    grid2: {
       a: 'a',
       b: 'b'
     },

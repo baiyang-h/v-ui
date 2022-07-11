@@ -49,11 +49,17 @@ const option1 = {
   }
 }
 
+// 当我 grid 这个对象设置了 prop，则会生成对象，children下的子集就为对象的属性
+// 当我不设置 prop 的时候，则根据父级寻找生成对象，如无就是各自子集的属性
+/*
+ 第一个 ：{a: {a1: undefined, a2: undefined}}
+ 第二个： {a1: undefined, a2: undefined}
+ */
 const option2 = {
   showBtn: true,
   columns: [
     {
-      type: 'col',
+      type: 'grid',
       prop: 'a',
       children: [
         {
@@ -69,9 +75,8 @@ const option2 = {
       ]
     },
     {
-      type: 'col',
-      label: 'Col',
-      prop: 'b',
+      type: 'grid',
+      label: 'Grid',
       children: [
         {
           type: 'input',
@@ -84,22 +89,9 @@ const option2 = {
           prop: 'b2'
         },
       ]
-    }
+    },
   ],
   rules: {
-    b: [
-      { required: true, message: '必填' },
-      {
-        validator(rule, value, callback) {
-          if (!value) return callback(new Error('必填'))
-          if(value.b1 && value.b2) {
-            callback()
-          } else {
-            callback(new Error('必填'))
-          }
-        }
-      }
-    ],
     'a.a1':  [
       { required: true, message: '必填' },
     ],

@@ -29,8 +29,8 @@
         </el-form-item>
       </template>
       <template #ccc>
-        <el-form-item label="嵌套插槽" prop="col1.slot4">
-          <el-input v-model="form.col1.slot4" />
+        <el-form-item label="嵌套插槽" prop="grid1.slot4">
+          <el-input v-model="form.grid1.slot4" />
         </el-form-item>
       </template>
     </p-form>
@@ -46,7 +46,7 @@ const form = reactive({
   slot1: '我是插槽1',
   slot2: '',
   slot3: '',
-  col1: {
+  grid1: {
     slot4: '我是嵌套插槽4',
   }
 })
@@ -79,9 +79,9 @@ const option = {
           span: 6
         },
         {
-          type: 'col',
-          label: 'RowCol',
-          prop: 'col1',
+          type: 'grid',
+          label: 'RowGrid',
+          prop: 'grid1',
           span: 18,
           children: [
             {
@@ -105,10 +105,10 @@ const option = {
     input: [
       { required: true, message: '必填' },
     ],
-    'col1.a': [
+    'grid1.a': [
       { required: true, message: '必填' },
     ],
-    'col1.slot4': [
+    'grid1.slot4': [
       { required: true, message: '必填' },
     ],
     slot1: [
@@ -143,7 +143,7 @@ const setFieldsValue = () => {
     slot2: '333',
     slot3: '444',
     row1: '555',
-    col1: {
+    grid1: {
       a: '11',
       slot4: '22',
       b: '33',
